@@ -19,6 +19,11 @@ class Main:
             print(city_1 + " <-> " + city_2)
             print(self._data_handler.get_distance_duration_between_cities(city_1, city_2))
 
+            city_1 = self._settings['target_city_2']
+            city_2 = city
+            print(city_1 + " <-> " + city_2)
+            print(self._data_handler.get_distance_duration_between_cities(city_1, city_2))
+
 
 if __name__ == "__main__":
     # execute only if run as a script
