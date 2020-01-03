@@ -120,6 +120,8 @@ class SqlHandler:
                      " OR (city_1_id = ? AND city_2_id = ?)"
         self._cursor.execute(sql_string, (city_1_id, city_2_id, city_2_id, city_1_id,))
         answer = self._cursor.fetchall()
+        if answer:
+            answer = answer[0][0]
         return answer
 
     def get_duration(self, city_1, city_2):
@@ -133,4 +135,6 @@ class SqlHandler:
                      " OR (city_1_id = ? AND city_2_id = ?)"
         self._cursor.execute(sql_string, (city_1_id, city_2_id, city_2_id, city_1_id,))
         answer = self._cursor.fetchall()
+        if answer:
+            answer = answer[0][0]
         return answer
