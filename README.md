@@ -1,7 +1,7 @@
 # find_new_hometown
 
 A project to find a new hometown to live in.
-Both partners must travel to work by car. 
+Both partners want to find approximately the same distance from their place of work.
 This project aims to find the best place to live with 
 the shortest possible travel distance for both partners.
 
