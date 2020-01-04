@@ -105,7 +105,8 @@ class SqlHandler:
         city_1_id = self._get_city_id(city_1)
         city_2_id = self._get_city_id(city_2)
 
-        sql_string = "INSERT INTO distances (city_1_id, city_2_id, distance, duration) VALUES (?, ?, ?, ?)"
+        sql_string = "INSERT INTO distances (city_1_id, city_2_id, distance, duration) " \
+                     "VALUES (?, ?, ?, ?)"
         self._cursor.execute(sql_string, (city_1_id, city_2_id, distance, duration,))
         self._connection.commit()
 

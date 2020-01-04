@@ -14,7 +14,9 @@ class OpenRouteServiceHandler:
                        [coordinate_2.longitude, coordinate_2.latitude]]
 
         client = openrouteservice.Client(key=self._settings['api_key'])
-        distances = client.distance_matrix(locations=coordinates, metrics=['distance', 'duration'], units='km')
+        distances = client.distance_matrix(locations=coordinates,
+                                           metrics=['distance', 'duration'],
+                                           units='km')
 
         distance_in_km = distances['distances'][0][1]
         duration = distances['durations'][0][1]

@@ -1,5 +1,4 @@
 
-import itertools
 from sql_handler import SqlHandler
 from openrouteservice_handler import OpenRouteServiceHandler
 
@@ -24,8 +23,9 @@ class DataHandler:
         if not distance:
             coordinates_1 = self._database.get_coordinates_from_city(city_1)
             coordinates_2 = self._database.get_coordinates_from_city(city_2)
-            distance, duration = self._openrouteservice_handler.get_distance_duration_between_cities(coordinates_1,
-                                                                                                     coordinates_2)
+            distance, duration = self._openrouteservice_handler.\
+                get_distance_duration_between_cities(coordinates_1,
+                                                     coordinates_2)
             self._database.set_distance_duration(city_1, city_2, distance, duration)
 
         return distance, duration
