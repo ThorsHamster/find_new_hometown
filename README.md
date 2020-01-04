@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/thorshamster/find_new_hometown/badge?s=490599446953487415bc297769f782570860b96c)](https://www.codefactor.io/repository/github/thorshamster/find_new_hometown)
+
 # find_new_hometown
 
 A project to find a new hometown to live in.
