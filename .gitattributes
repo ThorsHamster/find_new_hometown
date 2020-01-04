@@ -1,0 +1,6 @@
+# Files that are going to be encrypted
+cities.yml filter=git-crypt diff=git-crypt
+settings.yml filter=git-crypt diff=git-crypt
+data.db filter=git-crypt diff=git-crypt
+# Making sure that .gitattributes is never encrypted. DON'T TOUCH THAT LINE AND ONE BELOW
+.gitattributes !filter !diff

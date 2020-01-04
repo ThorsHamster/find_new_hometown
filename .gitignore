@@ -130,6 +130,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/settings.yml
-data.db
-/cities.yml
