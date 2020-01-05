@@ -20,20 +20,22 @@ For every city one request for *GeocodeSearch* and two requests for *Matrix V2* 
 Furthermore you have to specify all necessary data in: **settings.yml**:
 ```yaml
 api_key: _insert_your_personal_api_key_here_
-target_city_1: _Working_place_of_partner_1_  # e.g. Berlin
-target_city_2: _Working_place_of_partner_2_  # e.g. Hannover
+target_city_1: _Working_place_of_partner_1_  # e.g. 38350 Helmstedt
+target_city_2: _Working_place_of_partner_2_  # e.g. Magdeburg
 ``` 
 
 Also a list of cities to investigate is needed: **cities.yml**:
 ```yaml
 cities:
-  - Braunschweig
-  - Wolfburg
-  - Magdeburg
-  - Brandenburg an der Havel
-  - 38350 Helmstedt
-  - 14641 Nauen, Havelland, Brandenburg
-  - ...
+ - Altenhausen, Börde, Sachsen-Anhalt
+ - Am Großen Bruch, Börde, Sachsen-Anhalt
+ - Angern, Börde, Sachsen-Anhalt
+ - Ausleben, Börde, Sachsen-Anhalt
+ - Barleben, Börde, Sachsen-Anhalt
+ - Beendorf, Börde, Sachsen-Anhalt
+ - Bülstringen, Börde, Sachsen-Anhalt
+ - Burgstall, Börde, Sachsen-Anhalt
+ - ...
 ``` 
 
 **Note**: If a city has a name that occurs frequently, 
@@ -43,16 +45,22 @@ You can get a list of all towns in a district on e.g. Wikipedia.
 
 ## Output
 
+![Example Output](https://user-images.githubusercontent.com/48162347/71783309-51866580-2fe5-11ea-894a-9e8b5ec13928.png)
+
 Example Output: The higher the city is in the list (the smaller the number), the more likely it is that 
 the city at the centre of the two workplaces.
 
 ```bash
-Magdeburg                               12.29
-38350 Helmstedt                        116.83
-Brandenburg an der Havel               127.82
-Wolfsburg                              142.27
-Braunschweig                           171.29
-14641 Nauen, Havelland, Brandenburg    220.68
+Altenhausen, Börde, Sachsen-Anhalt                0.20
+Erxleben, Börde, Sachsen-Anhalt                   0.20
+Eilsleben, Börde, Sachsen-Anhalt                  2.81
+Calvörde, Börde, Sachsen-Anhalt                   5.50
+Ausleben, Börde, Sachsen-Anhalt                   6.60
+Westheide, Börde, Sachsen-Anhalt                  6.93
+Ummendorf, Börde, Sachsen-Anhalt                  7.84
+Ingersleben, Börde, Sachsen-Anhalt                9.96
+Am Großen Bruch, Börde, Sachsen-Anhalt           11.88
+...
 ```
 
 ## Prerequisitions:
