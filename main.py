@@ -35,6 +35,16 @@ class Main:
 
         return target_city_1_series, target_city_2_series
 
+    def _plot_target_cities(self):
+        for city in ['target_city_1', 'target_city_2']:
+            target_city = self._settings[city]
+            coordinates = self._data_handler.get_coordinates_from_city(target_city)
+            plt.plot(coordinates.longitude,
+                     coordinates.latitude,
+                     color='blue',
+                     marker='o',
+                     markersize=10)
+
     def run(self):
         target_city_1_series, target_city_2_series = self._get_distance_series()
 
@@ -48,6 +58,7 @@ class Main:
         mean_difference = difference_series.mean()
 
         plt.figure()
+        self._plot_target_cities()
         for city, value in difference_series.items():
             if value <= 0.2 * mean_difference:
                 _color = 'green'
