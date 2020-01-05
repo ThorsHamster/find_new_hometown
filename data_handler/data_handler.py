@@ -10,12 +10,7 @@ class DataHandler:
 
     def get_distance_duration_between_cities(self, city_1, city_2):
         for city in [city_1, city_2]:
-            city_coordinates = self._database.get_coordinates_from_city(city)
-            if city_coordinates.longitude == 0 and city_coordinates.latitude == 0:
-                city_coordinates = self._openrouteservice_handler.get_coordinate_of_city(city)
-                self._database.set_coordinates_from_city(city,
-                                                         city_coordinates.longitude,
-                                                         city_coordinates.latitude)
+            self.get_coordinates_from_city(city)  # insert into database if not already existing
 
         distance = self._database.get_distance(city_1, city_2)
         duration = self._database.get_duration(city_1, city_2)
@@ -29,3 +24,13 @@ class DataHandler:
             self._database.set_distance_duration(city_1, city_2, distance, duration)
 
         return distance, duration
+
+    def get_coordinates_from_city(self, city):
+        city_coordinates = self._database.get_coordinates_from_city(city)
+        if city_coordinates.longitude == 0 and city_coordinates.latitude == 0:
+            city_coordinates = self._openrouteservice_handler.get_coordinate_of_city(city)
+            self._database.set_coordinates_from_city(city,
+                                                     city_coordinates.longitude,
+                                                     city_coordinates.latitude)
+
+        return city_coordinates

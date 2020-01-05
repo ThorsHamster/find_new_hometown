@@ -1,5 +1,7 @@
 
 import pandas as pd
+import mplleaflet
+import matplotlib.pyplot as plt
 from yml_reader import YmlReader
 from data_handler import DataHandler
 
@@ -42,6 +44,26 @@ class Main:
 
         pd.set_option('display.max_rows', len(difference_series))
         print(difference_series.sort_values(ascending=True))
+
+        mean_difference = difference_series.mean()
+
+        plt.figure()
+        for city, value in difference_series.items():
+            if value <= 0.2 * mean_difference:
+                _color = 'green'
+            elif 0.2 * mean_difference < value <= 0.4 * mean_difference:
+                _color = 'yellow'
+            else:
+                _color = 'red'
+
+            coordinates = self._data_handler.get_coordinates_from_city(city)
+            plt.plot(coordinates.longitude,
+                     coordinates.latitude,
+                     color=_color,
+                     marker='o',
+                     markersize=10)
+
+        mplleaflet.show()
 
 
 if __name__ == "__main__":
