@@ -18,6 +18,8 @@ Maybe it is necessary to download all data in several sessions, depending on the
 For every city one request for *GeocodeSearch* and two requests for *Matrix V2* (distance and duration) are necessary.
 
 Furthermore you have to specify all necessary data in: **settings.yml**:
+
+Like the openroutservice api key and the two working places.
 ```yaml
 api_key: _insert_your_personal_api_key_here_
 target_city_1: _Working_place_of_partner_1_  # e.g. 38350 Helmstedt
@@ -47,6 +49,13 @@ You can get a list of all towns in a district on e.g. Wikipedia.
 ## Output
 
 ![Example Output](https://user-images.githubusercontent.com/48162347/71783309-51866580-2fe5-11ea-894a-9e8b5ec13928.png)
+
+A html page will be created with a world map and all given cities. 
+The two workplaces are marked as blue dots. 
+All other cities are shown either as red, yellow or green points.
+Cities closest to the middle of the route are marked green, cities further 
+away are marked yellow and cities that are only convenient for one 
+of the two partners are marked red.
 
 Example Output: The higher the city is in the list (the smaller the number), the more likely it is that 
 the city at the centre of the two workplaces.
