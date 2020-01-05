@@ -46,6 +46,14 @@ it is recommended to add the postal code to get a unique name.
 Also the indication of the district is helpful.
 You can get a list of all towns in a district on e.g. Wikipedia.
 
+**How to use it**:
+If all necessary information is given, like *cities.yml* and *settings.yml*, 
+and all required packages are installed, just use it as follows:
+```python
+python main.py
+```
+or use a IDE like PyCharm.
+
 ## Output
 
 ![Example Output](https://user-images.githubusercontent.com/48162347/71783309-51866580-2fe5-11ea-894a-9e8b5ec13928.png)
