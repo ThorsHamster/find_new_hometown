@@ -26,6 +26,7 @@ target_city_2: _Working_place_of_partner_2_  # e.g. Magdeburg
 
 Also a list of cities to investigate is needed: **cities.yml**:
 ```yaml
+# taken from https://de.wikipedia.org/wiki/Liste_der_St%C3%A4dte_und_Gemeinden_in_Sachsen-Anhalt
 cities:
  - Altenhausen, Börde, Sachsen-Anhalt
  - Am Großen Bruch, Börde, Sachsen-Anhalt
