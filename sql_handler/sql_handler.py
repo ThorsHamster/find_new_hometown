@@ -53,8 +53,9 @@ class SqlHandler:
 
         sql_string = "SELECT id FROM cities WHERE city = ?"
         self._cursor.execute(sql_string, (city,))
-        answer = self._cursor.fetchall()
-        answer = answer[0][0]
+        answer = self._cursor.fetchone()
+        if answer:
+            answer = answer[0]
         return answer
 
     def connect(self):
@@ -81,12 +82,12 @@ class SqlHandler:
         sql_string = "SELECT longitude, latitude FROM cities WHERE city = ?"
         self._cursor.execute(sql_string, (city,))
 
-        answer = self._cursor.fetchall()
+        answer = self._cursor.fetchone()
 
         coordinates = Coordinates()
         if answer:
-            coordinates.longitude = answer[0][0]
-            coordinates.latitude = answer[0][1]
+            coordinates.longitude = answer[0]
+            coordinates.latitude = answer[1]
 
         return coordinates
 
@@ -126,7 +127,7 @@ class SqlHandler:
                          "(city_1_id = ? AND city_2_id = ?)" \
                          " OR (city_1_id = ? AND city_2_id = ?)"
         self._cursor.execute(sql_string, (city_1_id, city_2_id, city_2_id, city_1_id,))
-        answer = self._cursor.fetchall()
+        answer = self._cursor.fetchone()
         if answer:
-            answer = answer[0][0]
+            answer = answer[0]
         return answer
