@@ -3,8 +3,8 @@
 # find_new_hometown
 
 A project to find a new home town. 
-Both partners want to have approximately the same distance to their workplace. 
-This project aims to find the best place to live with the shortest possible distance for both partners.
+Both partners want to have approximately the same distance or duration to their workplace. 
+This project aims to find the best place to live with the shortest possible distance or duration for both partners.
 
 **Note**: In this repo my personal encrypted settings.yml, cities.yml and data.db are checked in. 
 You have to delete them and use your own.
@@ -20,10 +20,12 @@ For every city one request for *GeocodeSearch* and two requests for *Matrix V2* 
 Furthermore you have to specify all necessary data in: **settings.yml**:
 
 Like the openroutservice api key and the two working places.
+The **option** must also be specified whether to optimize by *duration* or *distance*.
 ```yaml
 api_key: _insert_your_personal_api_key_here_
 target_city_1: _Working_place_of_partner_1_  # e.g. 38350 Helmstedt
 target_city_2: _Working_place_of_partner_2_  # e.g. Magdeburg
+option: duration
 ``` 
 
 Also a list of cities to investigate is needed: **cities.yml**:

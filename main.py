@@ -1,4 +1,5 @@
 
+import sys
 import pandas as pd
 import mplleaflet
 import matplotlib.pyplot as plt
@@ -15,20 +16,39 @@ class Main:
         self._data_handler = DataHandler()
         self._settings = YmlReader(self._settings_file).read()
 
-    def _get_distance_series(self):
+        if not self._cities:
+            print('cities.yml not valid.')
+            sys.exit()
+        if not self._settings['api_key']:
+            print('setting "api_key" not valid.')
+            sys.exit()
+        if not self._settings['target_city_1']:
+            print('setting "target_city_1" not valid.')
+            sys.exit()
+        if not self._settings['target_city_2']:
+            print('setting "target_city_2" not valid.')
+            sys.exit()
+        if not self._settings['option']:
+            print('setting "option" not valid.')
+            sys.exit()
+        self._data_handler.check_valid_option(self._settings['option'])
+
+    def _get_series(self):
         target_city_1_dict = {}
         target_city_2_dict = {}
 
         for city in self._cities['cities']:
             target_city_1 = self._settings['target_city_1']
-            distance, _ = self._data_handler.get_distance_duration_between_cities(target_city_1,
-                                                                                  city)
-            target_city_1_dict[city] = distance
+            value = self._data_handler.get_values_between_cities(target_city_1,
+                                                                 city,
+                                                                 self._settings['option'])
+            target_city_1_dict[city] = value
 
             target_city_2 = self._settings['target_city_2']
-            distance, _ = self._data_handler.get_distance_duration_between_cities(target_city_2,
-                                                                                  city)
-            target_city_2_dict[city] = distance
+            value = self._data_handler.get_values_between_cities(target_city_2,
+                                                                 city,
+                                                                 self._settings['option'])
+            target_city_2_dict[city] = value
 
         target_city_1_series = pd.Series(target_city_1_dict)
         target_city_2_series = pd.Series(target_city_2_dict)
@@ -46,7 +66,7 @@ class Main:
                      markersize=10)
 
     def run(self):
-        target_city_1_series, target_city_2_series = self._get_distance_series()
+        target_city_1_series, target_city_2_series = self._get_series()
 
         # get difference of driving distances
         difference_series = target_city_1_series.subtract(target_city_2_series, fill_value=0.01)
