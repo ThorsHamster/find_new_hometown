@@ -56,6 +56,8 @@ class SqlHandler:
         answer = self._cursor.fetchone()
         if answer:
             answer = answer[0]
+        else:
+            answer = 0
         return answer
 
     def connect(self):
@@ -130,4 +132,6 @@ class SqlHandler:
         answer = self._cursor.fetchone()
         if answer:
             answer = answer[0]
+        else:
+            answer = 0
         return answer
