@@ -83,7 +83,7 @@ Am Großen Bruch, Börde, Sachsen-Anhalt           11.88
 ...
 ```
 
-## Prerequisitions:
+## Prerequisitions
 -   openrouteservice api key: [openrouteservice](https://openrouteservice.org/dev/#/login)
 -   python 3
 -   see [requirements.txt](https://github.com/ThorsHamster/find_new_hometown/blob/master/requirements.txt)
