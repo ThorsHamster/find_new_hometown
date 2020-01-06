@@ -1,4 +1,4 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c8fdd5fca7c49cb9c21eac099af97ce)](https://www.codacy.com/manual/hubert.flor/find_new_hometown?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ThorsHamster/find_new_hometown&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c8fdd5fca7c49cb9c21eac099af97ce)](https://www.codacy.com/manual/ThorsHamster/find_new_hometown?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ThorsHamster/find_new_hometown&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/thorshamster/find_new_hometown/badge?s=490599446953487415bc297769f782570860b96c)](https://www.codefactor.io/repository/github/thorshamster/find_new_hometown)
 
 # find_new_hometown
