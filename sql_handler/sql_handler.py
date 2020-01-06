@@ -117,9 +117,9 @@ class SqlHandler:
         city_1_id = self._get_city_id(city_1)
         city_2_id = self._get_city_id(city_2)
 
-        sql_string = "SELECT " + which_value + " FROM distances WHERE " \
-                                               "(city_1_id = ? AND city_2_id = ?)" \
-                     " OR (city_1_id = ? AND city_2_id = ?)"
+        sql_string = "SELECT {column_name} FROM distances WHERE " \
+                     "(city_1_id = ? AND city_2_id = ?)" \
+                     " OR (city_1_id = ? AND city_2_id = ?)".format(column_name=which_value)
         self._cursor.execute(sql_string, (city_1_id, city_2_id, city_2_id, city_1_id,))
         answer = self._cursor.fetchall()
         if answer:
