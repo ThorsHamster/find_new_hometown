@@ -18,6 +18,9 @@ class OpenRouteServiceHandler:
                                            metrics=['distance', 'duration'],
                                            units='km')
 
+        if distances is None:
+            return 0, 0
+
         distance_in_km = distances['distances'][0][1]
         duration = distances['durations'][0][1]
 

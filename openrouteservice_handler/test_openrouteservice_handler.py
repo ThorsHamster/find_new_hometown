@@ -33,3 +33,13 @@ def test_get_distance_duration_between_cities_switched_layout(unit_under_test, m
                                                                               MockCoordinate())
     assert distance == 3
     assert duration == 7
+
+
+def test_get_distance_duration_between_cities_no_return_value(unit_under_test, mocker):
+    mocker.patch('openrouteservice_handler.openrouteservice_handler.openrouteservice.Client.distance_matrix',
+                 return_value=None)
+
+    distance, duration = unit_under_test.get_distance_duration_between_cities(MockCoordinate(),
+                                                                              MockCoordinate())
+    assert distance == 0
+    assert duration == 0
