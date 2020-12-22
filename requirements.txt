@@ -9,7 +9,6 @@ iniconfig==1.1.1
 isort==4.3.21
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
-mock==4.0.3
 numpy==1.18.0
 openrouteservice==2.2.3
 packaging==20.8
@@ -22,6 +21,7 @@ pylint==2.4.4
 pyparsing==2.4.7
 pytest==6.2.1
 pytest-cov==2.10.1
+pytest-mock==3.4.0
 python-dateutil==2.8.1
 pytz==2019.3
 PyYAML==5.2
