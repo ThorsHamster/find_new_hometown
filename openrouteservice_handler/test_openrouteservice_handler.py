@@ -43,3 +43,23 @@ def test_get_distance_duration_between_cities_no_return_value(unit_under_test, m
                                                                               MockCoordinate())
     assert distance == 0
     assert duration == 0
+
+
+def test_get_coordinate_of_city_city_found(unit_under_test, mocker):
+    mocker.patch('openrouteservice_handler.openrouteservice_handler.openrouteservice.Client.pelias_search',
+                 return_value={'features': [{'geometry': {'coordinates': [3, 7]}}]})
+
+    coordinates = unit_under_test.get_coordinate_of_city('test_city')
+
+    assert coordinates.longitude == 3
+    assert coordinates.latitude == 7
+
+
+def test_get_coordinate_of_city_city_not_found(unit_under_test, mocker):
+    mocker.patch('openrouteservice_handler.openrouteservice_handler.openrouteservice.Client.pelias_search',
+                 return_value=None)
+
+    coordinates = unit_under_test.get_coordinate_of_city('test_city')
+
+    assert coordinates.longitude == 0
+    assert coordinates.latitude == 0

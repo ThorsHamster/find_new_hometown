@@ -37,8 +37,9 @@ class OpenRouteServiceHandler:
         geocode = client.pelias_search(text=city_name)
 
         coordinates = Coordinates()
-        if len(geocode['features']) > 0:
-            coordinates.longitude = geocode['features'][0]['geometry']['coordinates'][0]
-            coordinates.latitude = geocode['features'][0]['geometry']['coordinates'][1]
+        if geocode:
+            if len(geocode['features']) > 0:
+                coordinates.longitude = geocode['features'][0]['geometry']['coordinates'][0]
+                coordinates.latitude = geocode['features'][0]['geometry']['coordinates'][1]
 
         return coordinates
