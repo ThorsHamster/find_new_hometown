@@ -14,10 +14,6 @@ class SqlHandler:
 
     def _create_new(self):
         try:
-            if os.path.isfile(self._database):
-                print("Database already exists.")
-                return
-
             self._connection = sqlite3.connect(self._database)
             self._cursor = self._connection.cursor()
 
