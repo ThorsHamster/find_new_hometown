@@ -1,5 +1,4 @@
 
-import sys
 from sql_handler import SqlHandler
 from openrouteservice_handler import OpenRouteServiceHandler
 
@@ -12,8 +11,7 @@ class DataHandler:
     @staticmethod
     def check_valid_option(option):
         if option not in ['distance', 'duration']:
-            print('"option" not valid. Use "distance" or "duration".')
-            sys.exit()
+            raise ValueError('"option" not valid. Use "distance" or "duration".')
 
     def get_values_between_cities(self, city_1, city_2, option):
         self.check_valid_option(option)
