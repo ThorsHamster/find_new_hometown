@@ -28,6 +28,7 @@ class DataHandler:
                 get_distance_duration_between_cities(coordinates_1,
                                                      coordinates_2)
             self._database.set_distance_duration(city_1, city_2, distance, duration)
+            value = distance
 
         return value
 

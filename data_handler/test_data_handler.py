@@ -3,10 +3,15 @@ import pytest
 from data_handler import DataHandler
 
 
+class MockCoordinate:
+    def __init__(self, longitude=0, latitude=0):
+        self.longitude = longitude
+        self.latitude = latitude
+
+
 @pytest.fixture
 def unit_under_test(mocker):
-    mocker.patch('data_handler.data_handler.OpenRouteServiceHandler')
-    mocker.patch('data_handler.data_handler.SqlHandler')
+    mocker.patch('openrouteservice_handler.openrouteservice_handler.YmlReader')
     return DataHandler()
 
 
@@ -23,3 +28,44 @@ def test_check_valid_option_input_duration(unit_under_test, mocker):
 def test_check_valid_option_input_wrong(unit_under_test, mocker):
     with pytest.raises(ValueError, match='"option" not valid. Use "distance" or "duration".'):
         unit_under_test.check_valid_option('something_wrong')
+
+
+def test_get_values_between_cities_city_was_already_saved(unit_under_test, mocker):
+    mocker.patch('data_handler.data_handler.SqlHandler.get_coordinates_from_city', return_value=MockCoordinate(8, 9))
+    mocker.patch('data_handler.data_handler.SqlHandler.set_coordinates_from_city')
+    mocker.patch('data_handler.data_handler.SqlHandler.set_distance_duration')
+    mocker.patch('data_handler.data_handler.SqlHandler.get_value', return_value=7)
+    mocker.patch('data_handler.data_handler.OpenRouteServiceHandler.get_coordinate_of_city',
+                 return_value=MockCoordinate(3, 7))
+
+    distance = unit_under_test.get_values_between_cities('city_a', 'city_b', 'distance')
+
+    assert distance == 7
+
+
+def test_get_values_between_cities_city_not_already_saved_before(unit_under_test, mocker):
+    mocker.patch('data_handler.data_handler.SqlHandler.get_coordinates_from_city', return_value=MockCoordinate(0, 0))
+    mocker.patch('data_handler.data_handler.SqlHandler.set_coordinates_from_city')
+    mocker.patch('data_handler.data_handler.SqlHandler.set_distance_duration')
+    mocker.patch('data_handler.data_handler.SqlHandler.get_value', return_value=7)
+    mocker.patch('data_handler.data_handler.OpenRouteServiceHandler.get_coordinate_of_city',
+                 return_value=MockCoordinate(3, 7))
+
+    distance = unit_under_test.get_values_between_cities('city_a', 'city_b', 'distance')
+
+    assert distance == 7
+
+
+def test_get_values_between_cities_no_data_saved_before_at_all(unit_under_test, mocker):
+    mocker.patch('data_handler.data_handler.SqlHandler.get_coordinates_from_city', return_value=MockCoordinate(8, 9))
+    mocker.patch('data_handler.data_handler.SqlHandler.set_coordinates_from_city')
+    mocker.patch('data_handler.data_handler.SqlHandler.set_distance_duration')
+    mocker.patch('data_handler.data_handler.SqlHandler.get_value', return_value=None)
+    mocker.patch('data_handler.data_handler.OpenRouteServiceHandler.get_coordinate_of_city',
+                 return_value=MockCoordinate(3, 7))
+    mocker.patch('data_handler.data_handler.OpenRouteServiceHandler.get_distance_duration_between_cities',
+                 return_value=(10, 11))
+
+    distance = unit_under_test.get_values_between_cities('city_a', 'city_b', 'distance')
+
+    assert distance == 10
