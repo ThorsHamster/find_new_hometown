@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import patch
+from unittest.mock import call
 
 from sql_handler import SqlHandler
 
@@ -12,7 +12,6 @@ class MockCoordinate:
 
 @pytest.fixture
 def unit_under_test(mocker):
-    #mocker.patch('sql_handler.sql_handler.sqlite3')
     return SqlHandler()
 
 
@@ -47,8 +46,20 @@ def test_get_coordinates_from_city(unit_under_test, mocker):
     mock_sql = mocker.patch('sql_handler.sql_handler.sqlite3.connect')
     mock_sql.return_value.cursor.return_value.fetchone.return_value = [10, 11]
 
-    unit_under_test.connect()
     coordinates = unit_under_test.get_coordinates_from_city('test_city')
 
     assert coordinates.longitude == 10
     assert coordinates.latitude == 11
+
+
+def test_set_coordinates_from_city(unit_under_test, mocker):
+    mock_sql = mocker.patch('sql_handler.sql_handler.sqlite3.connect')
+
+    unit_under_test.set_coordinates_from_city('test_city', 0, 0)
+
+    found = False
+    for call_ in mock_sql.mock_calls:
+        if str(call_) == "call().cursor().execute('INSERT INTO cities (city, longitude, latitude) VALUES (?, ?, ?)', " \
+                         "('test_city', 0, 0))":
+            found = True
+    assert found is True
