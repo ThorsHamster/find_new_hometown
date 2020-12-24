@@ -41,19 +41,16 @@ class SqlHandler:
             self._connection.close()
 
         except Error as error:
-            print(error)
+            raise error
 
     def _get_city_id(self, city):
-        if not self.connected:
-            self.connect()
-
         sql_string = "SELECT id FROM cities WHERE city = ?"
         self._cursor.execute(sql_string, (city,))
         answer = self._cursor.fetchone()
         if answer:
             answer = answer[0]
         else:
-            answer = 0
+            raise ValueError('City not known.')
         return answer
 
     def connect(self):
@@ -67,7 +64,7 @@ class SqlHandler:
             self._cursor = self._connection.cursor()
             self.connected = True
         except Error as error:
-            print(error)
+            raise error
 
     def close(self):
         self._connection.close()
