@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import call
 
 from sql_handler import SqlHandler
 
@@ -57,9 +56,31 @@ def test_set_coordinates_from_city(unit_under_test, mocker):
 
     unit_under_test.set_coordinates_from_city('test_city', 0, 0)
 
-    found = False
-    for call_ in mock_sql.mock_calls:
-        if str(call_) == "call().cursor().execute('INSERT INTO cities (city, longitude, latitude) VALUES (?, ?, ?)', " \
-                         "('test_city', 0, 0))":
-            found = True
-    assert found is True
+    assert any("'test_city', 0, 0" in str(c) for c in mock_sql.mock_calls)
+
+
+def test_set_distance_duration(unit_under_test, mocker):
+    mock_sql = mocker.patch('sql_handler.sql_handler.sqlite3.connect')
+    mock_sql.return_value.cursor.return_value.fetchone.side_effect = [[10], [11]]
+
+    unit_under_test.set_distance_duration('test_city', 'test_city2', 30, 40)
+
+    assert any("10, 11, 30, 40" in str(c) for c in mock_sql.mock_calls)
+
+
+def test_get_value_distance(unit_under_test, mocker):
+    mock_sql = mocker.patch('sql_handler.sql_handler.sqlite3.connect')
+    mock_sql.return_value.cursor.return_value.fetchone.side_effect = [[10], [11], [45]]
+
+    return_value = unit_under_test.get_value('test_city', 'test_city2', 'distance')
+
+    assert return_value == 45
+
+
+def test_get_value_duration(unit_under_test, mocker):
+    mock_sql = mocker.patch('sql_handler.sql_handler.sqlite3.connect')
+    mock_sql.return_value.cursor.return_value.fetchone.side_effect = [[10], [11], [54]]
+
+    return_value = unit_under_test.get_value('test_city', 'test_city2', 'duration')
+
+    assert return_value == 54
