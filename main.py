@@ -9,4 +9,4 @@ def run_home_town_finder():
 
 if __name__ == "__main__":
     # execute only if run as a script
-    run_home_town_finder()
+    run_home_town_finder()  # pragma: no cover
