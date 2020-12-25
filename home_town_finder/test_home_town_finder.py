@@ -121,3 +121,4 @@ def test_home_town_finder_run(mocker):
     unit_under_test.run()
 
     assert mock_mplleaflet.show.called
+    assert mock_plt.plot.called
