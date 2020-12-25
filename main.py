@@ -1,5 +1,5 @@
 
-from data_plotter import DataPlotter
+from home_town_finder import HomeTownFinder
 
-plot = DataPlotter()
-plot.run()
+home_town_finder = HomeTownFinder()
+home_town_finder.run()

@@ -6,7 +6,7 @@ from yml_reader import YmlReader
 from data_handler import DataHandler
 
 
-class DataPlotter:
+class HomeTownFinder:
     def __init__(self):
         self._cities_file = "cities.yml"
         self._settings_file = "settings.yml"
