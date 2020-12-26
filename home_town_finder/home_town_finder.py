@@ -74,9 +74,8 @@ class HomeTownFinder:
         return pd.Series(dictionary)
 
     def _plot_target_cities(self):
-        for city in [self._target_city_1, self._target_city_2]:
-            target_city = self._settings[city]
-            coordinates = self._data_handler.get_coordinates_from_city(target_city)
+        for target_city in [self._target_city_1, self._target_city_2]:
+            coordinates = self._data_handler.get_coordinates_from_city(self._settings[target_city])
             plt.plot(coordinates.longitude,
                      coordinates.latitude,
                      color='blue',
