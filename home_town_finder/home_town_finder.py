@@ -66,8 +66,8 @@ class HomeTownFinder:
                                                             self._settings[self._option])
 
     @staticmethod
-    def _convert_dict_into_pandas_series(dict):
-        return pd.Series(dict)
+    def _convert_dict_into_pandas_series(dictionary):
+        return pd.Series(dictionary)
 
     def _plot_target_cities(self):
         for city in [self._target_city_1, self._target_city_2]:
