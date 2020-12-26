@@ -33,8 +33,7 @@ def test_home_town_finder_initialize_data(mocker):
                                                                                    'target_city_1': 'city_A',
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': 'duration'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     HomeTownFinder()
 
@@ -45,18 +44,28 @@ def test_home_town_finder_initialize_data_invalid_cities_yml(mocker):
                                                                                    'target_city_1': 'city_A',
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': 'duration'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='cities.yml not valid.'):
+        HomeTownFinder()
+
+
+def test_home_town_finder_initialize_data_empty_cities(mocker):
+    mocker.patch('home_town_finder.home_town_finder.YmlReader.read', side_effect=[{'cities': None},
+                                                                                  {'api_key': 10,
+                                                                                   'target_city_1': 'city_A',
+                                                                                   'target_city_2': 'city_B',
+                                                                                   'option': 'duration'}])
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
+
+    with pytest.raises(ValueError, match='cities are empty.'):
         HomeTownFinder()
 
 
 def test_home_town_finder_initialize_data_invalid_settings_yml(mocker):
     mocker.patch('home_town_finder.home_town_finder.YmlReader.read', side_effect=[{'cities': 'a'},
                                                                                   None])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='settings.yml not valid.'):
         HomeTownFinder()
@@ -68,8 +77,7 @@ def test_home_town_finder_initialize_data_invalid_api_key(mocker):
                                                                                    'target_city_1': 'city_A',
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': 'duration'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='setting "api_key" not valid.'):
         HomeTownFinder()
@@ -80,8 +88,7 @@ def test_home_town_finder_initialize_data_not_existing_api_key(mocker):
                                                                                   {'target_city_1': 'city_A',
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': 'duration'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='setting "api_key" not existing.'):
         HomeTownFinder()
@@ -93,8 +100,7 @@ def test_home_town_finder_initialize_data_invalid_target_city_1(mocker):
                                                                                    'target_city_1': None,
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': 'duration'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='setting "target_city_1" not valid.'):
         HomeTownFinder()
@@ -105,8 +111,7 @@ def test_home_town_finder_initialize_data_not_existing_target_city_1(mocker):
                                                                                   {'api_key': 10,
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': 'duration'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='setting "target_city_1" not existing.'):
         HomeTownFinder()
@@ -118,8 +123,7 @@ def test_home_town_finder_initialize_data_invalid_target_city_2(mocker):
                                                                                    'target_city_1': 'city_A',
                                                                                    'target_city_2': None,
                                                                                    'option': 'duration'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='setting "target_city_2" not valid.'):
         HomeTownFinder()
@@ -130,8 +134,7 @@ def test_home_town_finder_initialize_data_not_existing_target_city_2(mocker):
                                                                                   {'api_key': 10,
                                                                                    'target_city_1': 'city_A',
                                                                                    'option': 'duration'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='setting "target_city_2" not existing.'):
         HomeTownFinder()
@@ -143,8 +146,7 @@ def test_home_town_finder_initialize_data_invalid_option(mocker):
                                                                                    'target_city_1': 'city_A',
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': None}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='setting "option" not valid.'):
         HomeTownFinder()
@@ -155,8 +157,7 @@ def test_home_town_finder_initialize_data_not_existing_option(mocker):
                                                                                   {'api_key': 10,
                                                                                    'target_city_1': 'city_A',
                                                                                    'target_city_2': 'city_B'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = True
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     with pytest.raises(ValueError, match='setting "option" not existing.'):
         HomeTownFinder()
@@ -168,10 +169,9 @@ def test_home_town_finder_initialize_option_value_not_valid(mocker):
                                                                                    'target_city_1': 'city_A',
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': 'invalid'}])
-    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
-    mock_data_handler.return_value.check_valid_option.return_value = False
+    mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
-    with pytest.raises(ValueError, match='value of setting "option" not valid.'):
+    with pytest.raises(ValueError, match='value of setting "option" not valid. Use "duration" or "distance".'):
         HomeTownFinder()
 
 

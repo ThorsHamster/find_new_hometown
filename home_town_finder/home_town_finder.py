@@ -1,4 +1,3 @@
-
 import pandas as pd
 import mplleaflet
 import matplotlib.pyplot as plt
@@ -20,6 +19,8 @@ class HomeTownFinder:
     def _check_preconditions(self):
         if not self._cities:
             raise ValueError('cities.yml not valid.')
+        if self._cities['cities'] is None:
+            raise ValueError('cities are empty.')
         if not self._settings:
             raise ValueError('settings.yml not valid.')
         if 'api_key' not in self._settings:
@@ -38,30 +39,29 @@ class HomeTownFinder:
             raise ValueError('setting "option" not existing.')
         if not self._settings['option']:
             raise ValueError('setting "option" not valid.')
-        if not self._data_handler.check_valid_option(self._settings['option']):
-            raise ValueError('value of setting "option" not valid.')
+        if not self._settings['option'] in ['distance', 'duration']:
+            raise ValueError('value of setting "option" not valid. Use "duration" or "distance".')
 
     def _get_series(self):
         target_city_1_dict = {}
         target_city_2_dict = {}
 
         for city in self._cities['cities']:
-            target_city_1 = self._settings['target_city_1']
-            value = self._data_handler.get_values_between_cities(target_city_1,
-                                                                 city,
-                                                                 self._settings['option'])
-            target_city_1_dict[city] = value
+            target_city_1_dict[city] = self._get_values_between_city_and_target_city(city,
+                                                                                     self._settings['target_city_1'])
 
-            target_city_2 = self._settings['target_city_2']
-            value = self._data_handler.get_values_between_cities(target_city_2,
-                                                                 city,
-                                                                 self._settings['option'])
-            target_city_2_dict[city] = value
+            target_city_2_dict[city] = self._get_values_between_city_and_target_city(city,
+                                                                                     self._settings['target_city_2'])
 
         target_city_1_series = pd.Series(target_city_1_dict)
         target_city_2_series = pd.Series(target_city_2_dict)
 
         return target_city_1_series, target_city_2_series
+
+    def _get_values_between_city_and_target_city(self, city, target_city):
+        return self._data_handler.get_values_between_cities(target_city,
+                                                            city,
+                                                            self._settings['option'])
 
     def _plot_target_cities(self):
         for city in ['target_city_1', 'target_city_2']:
