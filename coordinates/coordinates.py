@@ -5,17 +5,17 @@ class Coordinates:
         self._latitude = 0
 
     @property
-    def longitude(self):
+    def longitude(self) -> int:
         return self._longitude
 
     @longitude.setter
-    def longitude(self, value):
+    def longitude(self, value: int) -> None:
         self._longitude = value
 
     @property
-    def latitude(self):
+    def latitude(self) -> int:
         return self._latitude
 
     @latitude.setter
-    def latitude(self, value):
+    def latitude(self, value: int) -> None:
         self._latitude = value
