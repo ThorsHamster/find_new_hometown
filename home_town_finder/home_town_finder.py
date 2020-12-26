@@ -19,12 +19,20 @@ class HomeTownFinder:
             raise ValueError('cities.yml not valid.')
         if not self._settings:
             raise ValueError('settings.yml not valid.')
+        if 'api_key' not in self._settings:
+            raise ValueError('setting "api_key" not existing.')
         if not self._settings['api_key']:
             raise ValueError('setting "api_key" not valid.')
+        if 'target_city_1' not in self._settings:
+            raise ValueError('setting "target_city_1" not existing.')
         if not self._settings['target_city_1']:
             raise ValueError('setting "target_city_1" not valid.')
+        if 'target_city_2' not in self._settings:
+            raise ValueError('setting "target_city_2" not existing.')
         if not self._settings['target_city_2']:
             raise ValueError('setting "target_city_2" not valid.')
+        if 'option' not in self._settings:
+            raise ValueError('setting "option" not existing.')
         if not self._settings['option']:
             raise ValueError('setting "option" not valid.')
         self._data_handler.check_valid_option(self._settings['option'])
