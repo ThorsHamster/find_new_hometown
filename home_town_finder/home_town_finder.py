@@ -10,8 +10,9 @@ class HomeTownFinder:
         self._cities_file = "cities.yml"
         self._settings_file = "settings.yml"
 
-        self.target_city_1 = 'target_city_1'
-        self.target_city_2 = 'target_city_2'
+        self._target_city_1 = 'target_city_1'
+        self._target_city_2 = 'target_city_2'
+        self._option = 'option'
 
         self._cities = YmlReader(self._cities_file).read()
         self._data_handler = DataHandler()
@@ -30,20 +31,20 @@ class HomeTownFinder:
             raise ValueError('setting "api_key" not existing.')
         if not self._settings['api_key']:
             raise ValueError('setting "api_key" not valid.')
-        if self.target_city_1 not in self._settings:
-            raise ValueError('setting "{}" not existing.'.format(self.target_city_1))
-        if not self._settings[self.target_city_1]:
-            raise ValueError('setting "{}" not valid.'.format(self.target_city_1))
-        if self.target_city_2 not in self._settings:
-            raise ValueError('setting "{}" not existing.'.format(self.target_city_2))
-        if not self._settings[self.target_city_2]:
-            raise ValueError('setting "{}" not valid.'.format(self.target_city_2))
-        if 'option' not in self._settings:
-            raise ValueError('setting "option" not existing.')
-        if not self._settings['option']:
-            raise ValueError('setting "option" not valid.')
-        if not self._settings['option'] in ['distance', 'duration']:
-            raise ValueError('value of setting "option" not valid. Use "duration" or "distance".')
+        if self._target_city_1 not in self._settings:
+            raise ValueError('setting "{}" not existing.'.format(self._target_city_1))
+        if not self._settings[self._target_city_1]:
+            raise ValueError('setting "{}" not valid.'.format(self._target_city_1))
+        if self._target_city_2 not in self._settings:
+            raise ValueError('setting "{}" not existing.'.format(self._target_city_2))
+        if not self._settings[self._target_city_2]:
+            raise ValueError('setting "{}" not valid.'.format(self._target_city_2))
+        if self._option not in self._settings:
+            raise ValueError('setting "{}" not existing.'.format(self._option))
+        if not self._settings[self._option]:
+            raise ValueError('setting "{}" not valid.'.format(self._option))
+        if not self._settings[self._option] in ['distance', 'duration']:
+            raise ValueError('value of setting "{}" not valid. Use "duration" or "distance".'.format(self._option))
 
     def _get_series(self):
         target_city_1_dict = {}
@@ -51,10 +52,10 @@ class HomeTownFinder:
 
         for city in self._cities['cities']:
             target_city_1_dict[city] = self._get_values_between_city_and_target_city(city,
-                                                                                     self._settings[self.target_city_1])
+                                                                                     self._settings[self._target_city_1])
 
             target_city_2_dict[city] = self._get_values_between_city_and_target_city(city,
-                                                                                     self._settings[self.target_city_2])
+                                                                                     self._settings[self._target_city_2])
 
         return self._convert_dict_into_pandas_series(target_city_1_dict), \
                self._convert_dict_into_pandas_series(target_city_2_dict)
@@ -62,14 +63,14 @@ class HomeTownFinder:
     def _get_values_between_city_and_target_city(self, city, target_city):
         return self._data_handler.get_values_between_cities(target_city,
                                                             city,
-                                                            self._settings['option'])
+                                                            self._settings[self._option])
 
     @staticmethod
     def _convert_dict_into_pandas_series(dict):
         return pd.Series(dict)
 
     def _plot_target_cities(self):
-        for city in [self.target_city_1, self.target_city_2]:
+        for city in [self._target_city_1, self._target_city_2]:
             target_city = self._settings[city]
             coordinates = self._data_handler.get_coordinates_from_city(target_city)
             plt.plot(coordinates.longitude,
