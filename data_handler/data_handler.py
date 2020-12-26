@@ -14,14 +14,10 @@ class DataHandler:
         for city in [city_1, city_2]:
             self.get_coordinates_from_city(city)  # insert into database if not already existing
 
-        value = self._database.get_value(city_1, city_2, option)
-
-        if not value:
+        if not self._database.get_value(city_1, city_2, option):
             self._load_and_save_distance_and_duration(city_1, city_2)
 
-        value = self._database.get_value(city_1, city_2, option)
-
-        return value
+        return self._database.get_value(city_1, city_2, option)
 
     def _load_and_save_distance_and_duration(self, city_1: str, city_2: str) -> None:
         coordinates_1 = self._database.get_coordinates_from_city(city_1)
