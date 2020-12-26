@@ -81,6 +81,25 @@ class HomeTownFinder:
                      marker='o',
                      markersize=10)
 
+    def _plot_cities(self, difference_series, mean_difference):
+        for city, value in difference_series.items():
+            coordinates = self._data_handler.get_coordinates_from_city(city)
+            plt.plot(coordinates.longitude,
+                     coordinates.latitude,
+                     color=self._get_color_code_of_city(value, mean_difference),
+                     marker='o',
+                     markersize=10)
+
+    @staticmethod
+    def _get_color_code_of_city(value, mean_difference):
+        if value <= 0.2 * mean_difference:
+            _color = 'green'
+        elif 0.2 * mean_difference < value <= 0.4 * mean_difference:
+            _color = 'yellow'
+        else:
+            _color = 'red'
+        return _color
+
     def run(self):
         target_city_1_series, target_city_2_series = self._get_series()
 
@@ -95,19 +114,6 @@ class HomeTownFinder:
 
         plt.figure()
         self._plot_target_cities()
-        for city, value in difference_series.items():
-            if value <= 0.2 * mean_difference:
-                _color = 'green'
-            elif 0.2 * mean_difference < value <= 0.4 * mean_difference:
-                _color = 'yellow'
-            else:
-                _color = 'red'
-
-            coordinates = self._data_handler.get_coordinates_from_city(city)
-            plt.plot(coordinates.longitude,
-                     coordinates.latitude,
-                     color=_color,
-                     marker='o',
-                     markersize=10)
+        self._plot_cities(difference_series, mean_difference)
 
         mplleaflet.show()
