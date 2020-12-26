@@ -8,13 +8,7 @@ class DataHandler:
         self._database = SqlHandler()
         self._openrouteservice_handler = OpenRouteServiceHandler()
 
-    @staticmethod
-    def check_valid_option(option):
-        if option not in ['distance', 'duration']:
-            raise ValueError('"option" not valid. Use "distance" or "duration".')
-
     def get_values_between_cities(self, city_1, city_2, option):
-        self.check_valid_option(option)
 
         for city in [city_1, city_2]:
             self.get_coordinates_from_city(city)  # insert into database if not already existing
