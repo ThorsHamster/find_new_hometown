@@ -14,6 +14,7 @@ class HomeTownFinder:
         self._target_city_1 = 'target_city_1'
         self._target_city_2 = 'target_city_2'
         self._option = 'option'
+        self._api_key = 'api_key'
 
         self._cities = YmlReader(self._cities_file).read()
         self._data_handler = DataHandler()
@@ -28,10 +29,10 @@ class HomeTownFinder:
             raise ValueError(f'{self._cities_field} are empty.')
         if not self._settings:
             raise ValueError(f'{self._settings_file} not valid.')
-        if 'api_key' not in self._settings:
-            raise ValueError('setting "api_key" not existing.')
-        if not self._settings['api_key']:
-            raise ValueError('setting "api_key" not valid.')
+        if self._api_key not in self._settings:
+            raise ValueError(f'setting "{self._api_key}" not existing.')
+        if not self._settings[self._api_key]:
+            raise ValueError(f'setting "{self._api_key}" not valid.')
         if self._target_city_1 not in self._settings:
             raise ValueError('setting "{}" not existing.'.format(self._target_city_1))
         if not self._settings[self._target_city_1]:
@@ -51,7 +52,7 @@ class HomeTownFinder:
         target_city_1_dict = {}
         target_city_2_dict = {}
 
-        for city in self._cities['cities']:
+        for city in self._cities[self._cities_field]:
             target_city_1_dict[city] = self._get_values_between_city_and_target_city(city,
                                                                                      self._settings[self._target_city_1])
 
