@@ -1,6 +1,7 @@
 
 from sql_handler import SqlHandler
 from openrouteservice_handler import OpenRouteServiceHandler
+from coordinates import Coordinates
 
 
 class DataHandler:
@@ -8,7 +9,7 @@ class DataHandler:
         self._database = SqlHandler()
         self._openrouteservice_handler = OpenRouteServiceHandler()
 
-    def get_values_between_cities(self, city_1, city_2, option):
+    def get_values_between_cities(self, city_1: str, city_2: str, option: str) -> float:
 
         for city in [city_1, city_2]:
             self.get_coordinates_from_city(city)  # insert into database if not already existing
@@ -26,7 +27,7 @@ class DataHandler:
 
         return value
 
-    def get_coordinates_from_city(self, city):
+    def get_coordinates_from_city(self, city: str) -> Coordinates:
         city_coordinates = self._database.get_coordinates_from_city(city)
         if city_coordinates.longitude == 0 and city_coordinates.latitude == 0:
             city_coordinates = self._openrouteservice_handler.get_coordinate_of_city(city)
