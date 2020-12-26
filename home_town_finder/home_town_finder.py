@@ -53,15 +53,17 @@ class HomeTownFinder:
             target_city_2_dict[city] = self._get_values_between_city_and_target_city(city,
                                                                                      self._settings['target_city_2'])
 
-        target_city_1_series = pd.Series(target_city_1_dict)
-        target_city_2_series = pd.Series(target_city_2_dict)
-
-        return target_city_1_series, target_city_2_series
+        return self._convert_dict_into_pandas_series(target_city_1_dict), \
+               self._convert_dict_into_pandas_series(target_city_2_dict)
 
     def _get_values_between_city_and_target_city(self, city, target_city):
         return self._data_handler.get_values_between_cities(target_city,
                                                             city,
                                                             self._settings['option'])
+
+    @staticmethod
+    def _convert_dict_into_pandas_series(dict):
+        return pd.Series(dict)
 
     def _plot_target_cities(self):
         for city in ['target_city_1', 'target_city_2']:
