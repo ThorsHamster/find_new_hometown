@@ -15,6 +15,9 @@ class HomeTownFinder:
         self._data_handler = DataHandler()
         self._settings = YmlReader(self._settings_file).read()
 
+        self._check_preconditions()
+
+    def _check_preconditions(self):
         if not self._cities:
             raise ValueError('cities.yml not valid.')
         if not self._settings:
@@ -35,7 +38,8 @@ class HomeTownFinder:
             raise ValueError('setting "option" not existing.')
         if not self._settings['option']:
             raise ValueError('setting "option" not valid.')
-        self._data_handler.check_valid_option(self._settings['option'])
+        if not self._data_handler.check_valid_option(self._settings['option']):
+            raise ValueError('value of setting "option" not valid.')
 
     def _get_series(self):
         target_city_1_dict = {}
