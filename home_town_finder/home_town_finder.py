@@ -54,10 +54,12 @@ class HomeTownFinder:
 
         for city in self._cities[self._cities_field]:
             target_city_1_dict[city] = self._get_values_between_city_and_target_city(city,
-                                                                                     self._settings[self._target_city_1])
+                                                                                     self._settings[
+                                                                                         self._target_city_1])
 
             target_city_2_dict[city] = self._get_values_between_city_and_target_city(city,
-                                                                                     self._settings[self._target_city_2])
+                                                                                     self._settings[
+                                                                                         self._target_city_2])
 
         return self._convert_dict_into_pandas_series(target_city_1_dict), \
                self._convert_dict_into_pandas_series(target_city_2_dict)
