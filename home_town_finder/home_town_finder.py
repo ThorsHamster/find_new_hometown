@@ -10,6 +10,7 @@ class HomeTownFinder:
         self._cities_file = "cities.yml"
         self._settings_file = "settings.yml"
 
+        self._cities_field = 'cities'
         self._target_city_1 = 'target_city_1'
         self._target_city_2 = 'target_city_2'
         self._option = 'option'
@@ -22,11 +23,11 @@ class HomeTownFinder:
 
     def _check_preconditions(self):
         if not self._cities:
-            raise ValueError('cities.yml not valid.')
-        if self._cities['cities'] is None:
-            raise ValueError('cities are empty.')
+            raise ValueError(f'{self._cities_file} not valid.')
+        if self._cities[self._cities_field] is None:
+            raise ValueError(f'{self._cities_field} are empty.')
         if not self._settings:
-            raise ValueError('settings.yml not valid.')
+            raise ValueError(f'{self._settings_file} not valid.')
         if 'api_key' not in self._settings:
             raise ValueError('setting "api_key" not existing.')
         if not self._settings['api_key']:
