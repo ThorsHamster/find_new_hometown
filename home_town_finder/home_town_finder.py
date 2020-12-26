@@ -26,10 +26,16 @@ class HomeTownFinder:
         self._difference_series = None
 
     def _check_preconditions(self) -> None:
+        self._check_preconditions_cities()
+        self._check_preconditions_settings()
+
+    def _check_preconditions_cities(self):
         if not self._cities:
             raise ValueError(f'{self._cities_file} not valid.')
         if self._cities[self._cities_field] is None:
             raise ValueError(f'{self._cities_field} are empty.')
+
+    def _check_preconditions_settings(self):
         if not self._settings:
             raise ValueError(f'{self._settings_file} not valid.')
         if self._api_key not in self._settings:
