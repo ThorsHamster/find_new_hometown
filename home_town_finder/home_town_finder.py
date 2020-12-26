@@ -77,9 +77,9 @@ class HomeTownFinder:
         for target_city in [self._target_city_1, self._target_city_2]:
             self._plot_single_city(self._settings[target_city], color_='blue')
 
-    def _plot_cities(self, difference_series, mean_difference):
+    def _plot_cities(self, difference_series):
         for city, value in difference_series.items():
-            self._plot_single_city(city, color_=self._get_color_code_of_city(value, mean_difference))
+            self._plot_single_city(city, color_=self._get_color_code_of_city(difference_series, value))
 
     def _plot_single_city(self, city, color_):
         coordinates = self._data_handler.get_coordinates_from_city(city)
@@ -90,7 +90,8 @@ class HomeTownFinder:
                  markersize=10)
 
     @staticmethod
-    def _get_color_code_of_city(value, mean_difference):
+    def _get_color_code_of_city(difference_series, value):
+        mean_difference = difference_series.mean()
         if value <= 0.2 * mean_difference:
             _color = 'green'
         elif 0.2 * mean_difference < value <= 0.4 * mean_difference:
@@ -109,10 +110,8 @@ class HomeTownFinder:
         pd.set_option('display.max_rows', len(difference_series))
         print(difference_series.sort_values(ascending=True))
 
-        mean_difference = difference_series.mean()
-
         plt.figure()
         self._plot_target_cities()
-        self._plot_cities(difference_series, mean_difference)
+        self._plot_cities(difference_series)
 
         mplleaflet.show()
