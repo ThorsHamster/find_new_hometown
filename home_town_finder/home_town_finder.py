@@ -22,6 +22,8 @@ class HomeTownFinder:
 
         self._check_preconditions()
 
+        self._difference_series = None
+
     def _check_preconditions(self):
         if not self._cities:
             raise ValueError(f'{self._cities_file} not valid.')
@@ -77,9 +79,9 @@ class HomeTownFinder:
         for target_city in [self._target_city_1, self._target_city_2]:
             self._plot_single_city(self._settings[target_city], color_='blue')
 
-    def _plot_cities(self, difference_series):
-        for city, value in difference_series.items():
-            self._plot_single_city(city, color_=self._get_color_code_of_city(difference_series, value))
+    def _plot_cities(self):
+        for city, value in self._difference_series.items():
+            self._plot_single_city(city, color_=self._get_color_code_of_city(value))
 
     def _plot_single_city(self, city, color_):
         coordinates = self._data_handler.get_coordinates_from_city(city)
@@ -89,9 +91,8 @@ class HomeTownFinder:
                  marker='o',
                  markersize=10)
 
-    @staticmethod
-    def _get_color_code_of_city(difference_series, value):
-        mean_difference = difference_series.mean()
+    def _get_color_code_of_city(self, value):
+        mean_difference = self._difference_series.mean()
         if value <= 0.2 * mean_difference:
             _color = 'green'
         elif 0.2 * mean_difference < value <= 0.4 * mean_difference:
@@ -100,10 +101,9 @@ class HomeTownFinder:
             _color = 'red'
         return _color
 
-    @staticmethod
-    def _print_cities_on_console(difference_series):
-        pd.set_option('display.max_rows', len(difference_series))
-        print(difference_series.sort_values(ascending=True))
+    def _print_cities_on_console(self):
+        pd.set_option('display.max_rows', len(self._difference_series))
+        print(self._difference_series.sort_values(ascending=True))
 
     def _get_difference_series(self):
         target_city_1_series, target_city_2_series = self._get_series()
@@ -113,12 +113,12 @@ class HomeTownFinder:
         return difference_series.abs()
 
     def run(self):
-        difference_series = self._get_difference_series()
+        self._difference_series = self._get_difference_series()
 
-        self._print_cities_on_console(difference_series)
+        self._print_cities_on_console()
 
         plt.figure()
         self._plot_target_cities()
-        self._plot_cities(difference_series)
+        self._plot_cities()
 
         mplleaflet.show()
