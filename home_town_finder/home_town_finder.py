@@ -34,19 +34,19 @@ class HomeTownFinder:
         if not self._settings[self._api_key]:
             raise ValueError(f'setting "{self._api_key}" not valid.')
         if self._target_city_1 not in self._settings:
-            raise ValueError('setting "{}" not existing.'.format(self._target_city_1))
+            raise ValueError(f'setting "{self._target_city_1}" not existing.')
         if not self._settings[self._target_city_1]:
-            raise ValueError('setting "{}" not valid.'.format(self._target_city_1))
+            raise ValueError(f'setting "{self._target_city_1}" not valid.')
         if self._target_city_2 not in self._settings:
-            raise ValueError('setting "{}" not existing.'.format(self._target_city_2))
+            raise ValueError(f'setting "{self._target_city_2}" not existing.')
         if not self._settings[self._target_city_2]:
-            raise ValueError('setting "{}" not valid.'.format(self._target_city_2))
+            raise ValueError(f'setting "{self._target_city_2}" not valid.')
         if self._option not in self._settings:
-            raise ValueError('setting "{}" not existing.'.format(self._option))
+            raise ValueError(f'setting "{self._option}" not existing.')
         if not self._settings[self._option]:
-            raise ValueError('setting "{}" not valid.'.format(self._option))
+            raise ValueError(f'setting "{self._option}" not valid.')
         if not self._settings[self._option] in ['distance', 'duration']:
-            raise ValueError('value of setting "{}" not valid. Use "duration" or "distance".'.format(self._option))
+            raise ValueError(f'value of setting "{self._option}" not valid. Use "duration" or "distance".')
 
     def _get_series(self):
         target_city_1_dict = {}
