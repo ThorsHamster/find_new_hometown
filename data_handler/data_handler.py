@@ -17,25 +17,33 @@ class DataHandler:
         value = self._database.get_value(city_1, city_2, option)
 
         if not value:
-            coordinates_1 = self._database.get_coordinates_from_city(city_1)
-            coordinates_2 = self._database.get_coordinates_from_city(city_2)
-            distance, duration = self._openrouteservice_handler.\
-                get_distance_duration_between_cities(coordinates_1,
-                                                     coordinates_2)
-            self._database.set_distance_duration(city_1, city_2, distance, duration)
-            value = distance
+            self._load_and_save_distance_and_duration(city_1, city_2)
+
+        value = self._database.get_value(city_1, city_2, option)
 
         return value
 
-    def get_coordinates_from_city(self, city: str) -> Coordinates:
-        city_coordinates = self._database.get_coordinates_from_city(city)
-        if not self._check_if_coordinates_are_valid(city_coordinates):
-            city_coordinates = self._openrouteservice_handler.get_coordinate_of_city(city)
-            self._database.set_coordinates_from_city(city,
-                                                     city_coordinates.longitude,
-                                                     city_coordinates.latitude)
+    def _load_and_save_distance_and_duration(self, city_1: str, city_2: str) -> None:
+        coordinates_1 = self._database.get_coordinates_from_city(city_1)
+        coordinates_2 = self._database.get_coordinates_from_city(city_2)
+        distance, duration = self._openrouteservice_handler. \
+            get_distance_duration_between_cities(coordinates_1,
+                                                 coordinates_2)
+        self._database.set_distance_duration(city_1, city_2, distance, duration)
 
-        return city_coordinates
+    def get_coordinates_from_city(self, city: str) -> Coordinates:
+        coordinates = self._database.get_coordinates_from_city(city)
+        if not self._check_if_coordinates_are_valid(coordinates):
+            coordinates = self._load_and_save_new_coordinates(city)
+
+        return coordinates
+
+    def _load_and_save_new_coordinates(self, city: str) -> Coordinates:
+        coordinates = self._openrouteservice_handler.get_coordinate_of_city(city)
+        self._database.set_coordinates_from_city(city,
+                                                 coordinates.longitude,
+                                                 coordinates.latitude)
+        return coordinates
 
     @staticmethod
     def _check_if_coordinates_are_valid(coordinates: Coordinates) -> bool:

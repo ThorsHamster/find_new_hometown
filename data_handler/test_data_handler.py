@@ -45,7 +45,7 @@ def test_get_values_between_cities_no_data_saved_before_at_all(unit_under_test, 
     mocker.patch('data_handler.data_handler.SqlHandler.get_coordinates_from_city', return_value=MockCoordinate(8, 9))
     mocker.patch('data_handler.data_handler.SqlHandler.set_coordinates_from_city')
     mocker.patch('data_handler.data_handler.SqlHandler.set_distance_duration')
-    mocker.patch('data_handler.data_handler.SqlHandler.get_value', return_value=None)
+    mocker.patch('data_handler.data_handler.SqlHandler.get_value', side_effect=[None, 10])
     mocker.patch('data_handler.data_handler.OpenRouteServiceHandler.get_coordinate_of_city',
                  return_value=MockCoordinate(3, 7))
     mocker.patch('data_handler.data_handler.OpenRouteServiceHandler.get_distance_duration_between_cities',
