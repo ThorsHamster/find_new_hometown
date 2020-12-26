@@ -1,3 +1,4 @@
+from typing import Tuple
 import pandas as pd
 import mplleaflet
 import matplotlib.pyplot as plt
@@ -24,7 +25,7 @@ class HomeTownFinder:
 
         self._difference_series = None
 
-    def _check_preconditions(self):
+    def _check_preconditions(self) -> None:
         if not self._cities:
             raise ValueError(f'{self._cities_file} not valid.')
         if self._cities[self._cities_field] is None:
@@ -50,7 +51,7 @@ class HomeTownFinder:
         if not self._settings[self._option] in ['distance', 'duration']:
             raise ValueError(f'value of setting "{self._option}" not valid. Use "duration" or "distance".')
 
-    def _get_series(self):
+    def _get_series(self) -> Tuple[pd.Series, pd.Series]:
         target_city_1_dict = {}
         target_city_2_dict = {}
 
@@ -66,24 +67,24 @@ class HomeTownFinder:
         return self._convert_dict_into_pandas_series(target_city_1_dict), self._convert_dict_into_pandas_series(
             target_city_2_dict)
 
-    def _get_values_between_city_and_target_city(self, city, target_city):
+    def _get_values_between_city_and_target_city(self, city: str, target_city: str) -> float:
         return self._data_handler.get_values_between_cities(target_city,
                                                             city,
                                                             self._settings[self._option])
 
     @staticmethod
-    def _convert_dict_into_pandas_series(dictionary):
+    def _convert_dict_into_pandas_series(dictionary: dict) -> pd.Series:
         return pd.Series(dictionary)
 
-    def _plot_target_cities(self):
+    def _plot_target_cities(self) -> None:
         for target_city in [self._target_city_1, self._target_city_2]:
             self._plot_single_city(self._settings[target_city], color_='blue')
 
-    def _plot_cities(self):
+    def _plot_cities(self) -> None:
         for city, value in self._difference_series.items():
             self._plot_single_city(city, color_=self._get_color_code_of_city(value))
 
-    def _plot_single_city(self, city, color_):
+    def _plot_single_city(self, city: str, color_: str) -> None:
         coordinates = self._data_handler.get_coordinates_from_city(city)
         plt.plot(coordinates.longitude,
                  coordinates.latitude,
@@ -91,7 +92,7 @@ class HomeTownFinder:
                  marker='o',
                  markersize=10)
 
-    def _get_color_code_of_city(self, value):
+    def _get_color_code_of_city(self, value: float) -> str:
         mean_difference = self._difference_series.mean()
         if value <= 0.2 * mean_difference:
             _color = 'green'
@@ -101,18 +102,18 @@ class HomeTownFinder:
             _color = 'red'
         return _color
 
-    def _print_cities_on_console(self):
+    def _print_cities_on_console(self) -> None:
         pd.set_option('display.max_rows', len(self._difference_series))
         print(self._difference_series.sort_values(ascending=True))
 
-    def _get_difference_series(self):
+    def _get_difference_series(self) -> pd.Series:
         target_city_1_series, target_city_2_series = self._get_series()
 
         # get difference of driving distances
         difference_series = target_city_1_series.subtract(target_city_2_series, fill_value=0.01)
         return difference_series.abs()
 
-    def run(self):
+    def run(self) -> None:
         self._difference_series = self._get_difference_series()
 
         self._print_cities_on_console()
