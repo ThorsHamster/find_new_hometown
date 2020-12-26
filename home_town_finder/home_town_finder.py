@@ -75,21 +75,19 @@ class HomeTownFinder:
 
     def _plot_target_cities(self):
         for target_city in [self._target_city_1, self._target_city_2]:
-            coordinates = self._data_handler.get_coordinates_from_city(self._settings[target_city])
-            plt.plot(coordinates.longitude,
-                     coordinates.latitude,
-                     color='blue',
-                     marker='o',
-                     markersize=10)
+            self._plot_single_city(self._settings[target_city], color_='blue')
 
     def _plot_cities(self, difference_series, mean_difference):
         for city, value in difference_series.items():
-            coordinates = self._data_handler.get_coordinates_from_city(city)
-            plt.plot(coordinates.longitude,
-                     coordinates.latitude,
-                     color=self._get_color_code_of_city(value, mean_difference),
-                     marker='o',
-                     markersize=10)
+            self._plot_single_city(city, color_=self._get_color_code_of_city(value, mean_difference))
+
+    def _plot_single_city(self, city, color_):
+        coordinates = self._data_handler.get_coordinates_from_city(city)
+        plt.plot(coordinates.longitude,
+                 coordinates.latitude,
+                 color=color_,
+                 marker='o',
+                 markersize=10)
 
     @staticmethod
     def _get_color_code_of_city(value, mean_difference):
