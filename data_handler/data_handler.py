@@ -29,10 +29,14 @@ class DataHandler:
 
     def get_coordinates_from_city(self, city: str) -> Coordinates:
         city_coordinates = self._database.get_coordinates_from_city(city)
-        if city_coordinates.longitude == 0 and city_coordinates.latitude == 0:
+        if not self._check_if_coordinates_are_valid(city_coordinates):
             city_coordinates = self._openrouteservice_handler.get_coordinate_of_city(city)
             self._database.set_coordinates_from_city(city,
                                                      city_coordinates.longitude,
                                                      city_coordinates.latitude)
 
         return city_coordinates
+
+    @staticmethod
+    def _check_if_coordinates_are_valid(coordinates: Coordinates) -> bool:
+        return not (coordinates.longitude == 0 and coordinates.latitude == 0)
