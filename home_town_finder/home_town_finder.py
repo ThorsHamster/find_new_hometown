@@ -61,8 +61,8 @@ class HomeTownFinder:
                                                                                      self._settings[
                                                                                          self._target_city_2])
 
-        return self._convert_dict_into_pandas_series(target_city_1_dict), \
-               self._convert_dict_into_pandas_series(target_city_2_dict)
+        return self._convert_dict_into_pandas_series(target_city_1_dict), self._convert_dict_into_pandas_series(
+            target_city_2_dict)
 
     def _get_values_between_city_and_target_city(self, city, target_city):
         return self._data_handler.get_values_between_cities(target_city,
