@@ -52,6 +52,16 @@ def test_home_town_finder_initialize_data_invalid_cities_yml(mocker):
         HomeTownFinder()
 
 
+def test_home_town_finder_initialize_data_invalid_settings_yml(mocker):
+    mocker.patch('home_town_finder.home_town_finder.YmlReader.read', side_effect=[{'cities': 'a'},
+                                                                                  None])
+    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
+    mock_data_handler.return_value.check_valid_option.return_value = True
+
+    with pytest.raises(ValueError, match='settings.yml not valid.'):
+        HomeTownFinder()
+
+
 def test_home_town_finder_initialize_data_invalid_api_key(mocker):
     mocker.patch('home_town_finder.home_town_finder.YmlReader.read', side_effect=[{'cities': 'a'},
                                                                                   {'api_key': None,

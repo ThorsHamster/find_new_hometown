@@ -17,6 +17,8 @@ class HomeTownFinder:
 
         if not self._cities:
             raise ValueError('cities.yml not valid.')
+        if not self._settings:
+            raise ValueError('settings.yml not valid.')
         if not self._settings['api_key']:
             raise ValueError('setting "api_key" not valid.')
         if not self._settings['target_city_1']:
