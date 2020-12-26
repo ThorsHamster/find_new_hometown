@@ -100,15 +100,22 @@ class HomeTownFinder:
             _color = 'red'
         return _color
 
-    def run(self):
+    @staticmethod
+    def _print_cities_on_console(difference_series):
+        pd.set_option('display.max_rows', len(difference_series))
+        print(difference_series.sort_values(ascending=True))
+
+    def _get_difference_series(self):
         target_city_1_series, target_city_2_series = self._get_series()
 
         # get difference of driving distances
         difference_series = target_city_1_series.subtract(target_city_2_series, fill_value=0.01)
-        difference_series = difference_series.abs()
+        return difference_series.abs()
 
-        pd.set_option('display.max_rows', len(difference_series))
-        print(difference_series.sort_values(ascending=True))
+    def run(self):
+        difference_series = self._get_difference_series()
+
+        self._print_cities_on_console(difference_series)
 
         plt.figure()
         self._plot_target_cities()
