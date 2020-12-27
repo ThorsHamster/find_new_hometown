@@ -9,6 +9,9 @@ class DataHandler:
         self._database = SqlHandler()
         self._openrouteservice_handler = OpenRouteServiceHandler(openrouteservice_api_key)
 
+    def close(self):
+        self._database.close()
+
     def get_values_between_cities(self, city_1: str, city_2: str, option: str) -> float:
 
         for city in [city_1, city_2]:
