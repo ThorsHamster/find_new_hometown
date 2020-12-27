@@ -11,8 +11,7 @@ class MockCoordinate:
 
 @pytest.fixture
 def unit_under_test(mocker):
-    mocker.patch('openrouteservice_handler.openrouteservice_handler.YmlReader')
-    return DataHandler()
+    return DataHandler('api_key')
 
 
 def test_get_values_between_cities_city_was_already_saved(unit_under_test, mocker):

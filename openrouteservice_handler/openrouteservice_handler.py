@@ -1,20 +1,18 @@
 from typing import Tuple
 import openrouteservice
-from yml_reader import YmlReader
 from coordinates import Coordinates
 
 
 class OpenRouteServiceHandler:
-    def __init__(self):
-        self._settings_file = "settings.yml"
-        self._settings = YmlReader(self._settings_file).read()
+    def __init__(self, openrouteservice_api_key):
+        self._api_key = openrouteservice_api_key
 
     def get_distance_duration_between_cities(self, coordinate_1: Coordinates, coordinate_2: Coordinates) \
             -> Tuple[float, float]:
         coordinates = [[coordinate_1.longitude, coordinate_1.latitude],
                        [coordinate_2.longitude, coordinate_2.latitude]]
 
-        client = openrouteservice.Client(key=self._settings['api_key'])
+        client = openrouteservice.Client(key=self._api_key)
         distances = client.distance_matrix(locations=coordinates,
                                            metrics=['distance', 'duration'],
                                            units='km')
@@ -36,7 +34,7 @@ class OpenRouteServiceHandler:
         return value
 
     def get_coordinate_of_city(self, city_name) -> Coordinates:
-        client = openrouteservice.Client(key=self._settings['api_key'])
+        client = openrouteservice.Client(key=self._api_key)
         geocode = client.pelias_search(text=city_name)
 
         coordinates = Coordinates()

@@ -11,8 +11,7 @@ class MockCoordinate:
 
 @pytest.fixture
 def unit_under_test(mocker):
-    mocker.patch('openrouteservice_handler.openrouteservice_handler.YmlReader.read', return_value={'api_key': 10})
-    return OpenRouteServiceHandler()
+    return OpenRouteServiceHandler('api_key')
 
 
 def test_get_distance_duration_between_cities_standard_layout(unit_under_test, mocker):

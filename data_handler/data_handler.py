@@ -5,9 +5,9 @@ from coordinates import Coordinates
 
 
 class DataHandler:
-    def __init__(self):
+    def __init__(self, openrouteservice_api_key):
         self._database = SqlHandler()
-        self._openrouteservice_handler = OpenRouteServiceHandler()
+        self._openrouteservice_handler = OpenRouteServiceHandler(openrouteservice_api_key)
 
     def get_values_between_cities(self, city_1: str, city_2: str, option: str) -> float:
 

@@ -18,10 +18,11 @@ class HomeTownFinder:
         self._api_key = 'api_key'
 
         self._cities = YmlReader(self._cities_file).read()
-        self._data_handler = DataHandler()
         self._settings = YmlReader(self._settings_file).read()
 
         self._check_preconditions()
+
+        self._data_handler = DataHandler(openrouteservice_api_key=self._settings[self._api_key])
 
         self._difference_series = None
 
