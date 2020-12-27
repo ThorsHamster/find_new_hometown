@@ -76,9 +76,12 @@ class SqlHandler:
         self._connection.close()
         self.connected = False
 
-    def get_coordinates_from_city(self, city: str) -> Coordinates:
+    def _connect_if_not_connected(self):
         if not self.connected:
             self.connect()
+
+    def get_coordinates_from_city(self, city: str) -> Coordinates:
+        self._connect_if_not_connected()
 
         sql_string = "SELECT longitude, latitude FROM cities WHERE city = ?"
         self._cursor.execute(sql_string, (city,))
@@ -93,16 +96,14 @@ class SqlHandler:
         return coordinates
 
     def set_coordinates_from_city(self, city: str, longitude: int, latitude: int) -> None:
-        if not self.connected:
-            self.connect()
+        self._connect_if_not_connected()
 
         sql_string = "INSERT INTO cities (city, longitude, latitude) VALUES (?, ?, ?)"
         self._cursor.execute(sql_string, (city, longitude, latitude,))
         self._connection.commit()
 
     def set_distance_duration(self, city_1: str, city_2: str, distance: float, duration: float) -> None:
-        if not self.connected:
-            self.connect()
+        self._connect_if_not_connected()
 
         city_1_id = self._get_city_id(city_1)
         city_2_id = self._get_city_id(city_2)
@@ -113,8 +114,7 @@ class SqlHandler:
         self._connection.commit()
 
     def get_value(self, city_1: str, city_2: str, option: str) -> float:
-        if not self.connected:
-            self.connect()
+        self._connect_if_not_connected()
 
         city_1_id = self._get_city_id(city_1)
         city_2_id = self._get_city_id(city_2)
