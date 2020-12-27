@@ -1,4 +1,5 @@
 import os
+from typing import Union
 import sqlite3
 from sqlite3 import Error
 from coordinates import Coordinates
@@ -113,7 +114,7 @@ class SqlHandler:
         self._cursor.execute(sql_string, (city_1_id, city_2_id, distance, duration,))
         self._connection.commit()
 
-    def get_value(self, city_1: str, city_2: str, option: str) -> float:
+    def get_value(self, city_1: str, city_2: str, option: str) -> Union[float, None]:
         self._connect_if_not_connected()
 
         if option not in ['distance', 'duration']:
@@ -128,6 +129,6 @@ class SqlHandler:
         self._cursor.execute(sql_string, (city_1_id, city_2_id, city_2_id, city_1_id,))
         answer = self._cursor.fetchone()
         if answer is None:
-            return 0
+            return None
 
         return answer[0]

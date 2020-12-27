@@ -116,7 +116,7 @@ def test_get_value_unknown_city(unit_under_test, mocker):
 
     return_value = unit_under_test.get_value('unkown_city', 'test_city2', 'duration')
 
-    assert return_value == 0
+    assert return_value is None
 
 
 def test_get_value_option_not_allowed(unit_under_test, mocker):
