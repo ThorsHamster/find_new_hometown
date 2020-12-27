@@ -21,7 +21,7 @@ def test_connect_database_does_not_exist(unit_under_test, mocker):
 def test_create_database_raises_error(unit_under_test, mocker):
     mocker.patch('os.path.isfile', return_value=False)
     mock_sql = mocker.patch('sql_handler.sql_handler.sqlite3.connect')
-    mock_sql.return_value.cursor.return_value.execute.side_effect = Error('Test')
+    mock_sql.side_effect = Error('Test')
 
     with pytest.raises(Error, match='Test'):
         unit_under_test.connect()

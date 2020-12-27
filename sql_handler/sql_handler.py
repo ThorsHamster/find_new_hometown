@@ -1,4 +1,3 @@
-
 import os
 import sqlite3
 from sqlite3 import Error
@@ -14,34 +13,38 @@ class SqlHandler:
 
     def _create_new_database(self) -> None:
         try:
-            self._connection = self._connect_to_sqlite3_database()
-            self._cursor = self._connection.cursor()
+            self._connect_to_sqlite3_database()
 
-            sql_table_cities_create = """
-                CREATE TABLE cities (
-                    id integer PRIMARY KEY,
-                    city text NOT NULL,
-                    longitude REAL,
-                    latitude REAL
-                    )
-                    """
-            self._cursor.execute(sql_table_cities_create)
-
-            sql_table_distances_create = """
-                CREATE TABLE distances (
-                    city_1_id integer,
-                    city_2_id integer,
-                    distance REAL,
-                    duration REAL
-                    )
-                    """
-            self._cursor.execute(sql_table_distances_create)
+            self._create_cities_table()
+            self._create_distances_table()
 
             self._connection.commit()
             self._connection.close()
 
         except Error as error:
             raise error
+
+    def _create_cities_table(self) -> None:
+        sql_table_cities_create = """
+            CREATE TABLE cities (
+                id integer PRIMARY KEY,
+                city text NOT NULL,
+                longitude REAL,
+                latitude REAL
+                )
+                """
+        self._cursor.execute(sql_table_cities_create)
+
+    def _create_distances_table(self):
+        sql_table_distances_create = """
+            CREATE TABLE distances (
+                city_1_id integer,
+                city_2_id integer,
+                distance REAL,
+                duration REAL
+                )
+                """
+        self._cursor.execute(sql_table_distances_create)
 
     def _get_city_id(self, city):
         sql_string = "SELECT id FROM cities WHERE city = ?"
@@ -53,21 +56,21 @@ class SqlHandler:
             raise ValueError('City not known.')
         return answer
 
-    def _connect_to_sqlite3_database(self) -> sqlite3.Connection:
-        return sqlite3.connect(self._database)
-
-    def connect(self):
+    def _connect_to_sqlite3_database(self) -> None:
         try:
-            if self.connected:
-                return
-            if not os.path.isfile(self._database):
-                self._create_new_database()
-
-            self._connection = self._connect_to_sqlite3_database()
+            self._connection = sqlite3.connect(self._database)
             self._cursor = self._connection.cursor()
             self.connected = True
         except Error as error:
             raise error
+
+    def connect(self):
+        if self.connected:
+            return
+        if not os.path.isfile(self._database):
+            self._create_new_database()
+
+        self._connect_to_sqlite3_database()
 
     def close(self):
         self._connection.close()
