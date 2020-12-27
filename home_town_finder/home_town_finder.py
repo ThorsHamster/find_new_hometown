@@ -38,18 +38,30 @@ class HomeTownFinder:
     def _check_preconditions_settings(self):
         if not self._settings:
             raise ValueError(f'{self._settings_file} not valid.')
+        self._check_preconditions_settings_api_key()
+        self._check_preconditions_settings_target_city_1()
+        self._check_preconditions_settings_target_city_2()
+        self._check_preconditions_settings_option()
+
+    def _check_preconditions_settings_api_key(self):
         if self._api_key not in self._settings:
             raise ValueError(f'setting "{self._api_key}" not existing.')
         if not self._settings[self._api_key]:
             raise ValueError(f'setting "{self._api_key}" not valid.')
+
+    def _check_preconditions_settings_target_city_1(self):
         if self._target_city_1 not in self._settings:
             raise ValueError(f'setting "{self._target_city_1}" not existing.')
         if not self._settings[self._target_city_1]:
             raise ValueError(f'setting "{self._target_city_1}" not valid.')
+
+    def _check_preconditions_settings_target_city_2(self):
         if self._target_city_2 not in self._settings:
             raise ValueError(f'setting "{self._target_city_2}" not existing.')
         if not self._settings[self._target_city_2]:
             raise ValueError(f'setting "{self._target_city_2}" not valid.')
+
+    def _check_preconditions_settings_option(self):
         if self._option not in self._settings:
             raise ValueError(f'setting "{self._option}" not existing.')
         if not self._settings[self._option]:
