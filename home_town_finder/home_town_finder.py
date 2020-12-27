@@ -29,13 +29,13 @@ class HomeTownFinder:
         self._check_preconditions_cities()
         self._check_preconditions_settings()
 
-    def _check_preconditions_cities(self):
+    def _check_preconditions_cities(self) -> None:
         if not self._cities:
             raise ValueError(f'{self._cities_file} not valid.')
         if self._cities[self._cities_field] is None:
             raise ValueError(f'{self._cities_field} are empty.')
 
-    def _check_preconditions_settings(self):
+    def _check_preconditions_settings(self) -> None:
         if not self._settings:
             raise ValueError(f'{self._settings_file} not valid.')
         self._check_preconditions_settings_api_key()
@@ -43,25 +43,25 @@ class HomeTownFinder:
         self._check_preconditions_settings_target_city_2()
         self._check_preconditions_settings_option()
 
-    def _check_preconditions_settings_api_key(self):
+    def _check_preconditions_settings_api_key(self) -> None:
         if self._api_key not in self._settings:
             raise ValueError(f'setting "{self._api_key}" not existing.')
         if not self._settings[self._api_key]:
             raise ValueError(f'setting "{self._api_key}" not valid.')
 
-    def _check_preconditions_settings_target_city_1(self):
+    def _check_preconditions_settings_target_city_1(self) -> None:
         if self._target_city_1 not in self._settings:
             raise ValueError(f'setting "{self._target_city_1}" not existing.')
         if not self._settings[self._target_city_1]:
             raise ValueError(f'setting "{self._target_city_1}" not valid.')
 
-    def _check_preconditions_settings_target_city_2(self):
+    def _check_preconditions_settings_target_city_2(self) -> None:
         if self._target_city_2 not in self._settings:
             raise ValueError(f'setting "{self._target_city_2}" not existing.')
         if not self._settings[self._target_city_2]:
             raise ValueError(f'setting "{self._target_city_2}" not valid.')
 
-    def _check_preconditions_settings_option(self):
+    def _check_preconditions_settings_option(self) -> None:
         if self._option not in self._settings:
             raise ValueError(f'setting "{self._option}" not existing.')
         if not self._settings[self._option]:
