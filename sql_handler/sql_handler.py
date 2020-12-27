@@ -35,7 +35,7 @@ class SqlHandler:
                 """
         self._cursor.execute(sql_table_cities_create)
 
-    def _create_distances_table(self):
+    def _create_distances_table(self) -> None:
         sql_table_distances_create = """
             CREATE TABLE distances (
                 city_1_id integer,
@@ -46,15 +46,15 @@ class SqlHandler:
                 """
         self._cursor.execute(sql_table_distances_create)
 
-    def _get_city_id(self, city):
+    def _get_city_id(self, city: str) -> int:
         sql_string = "SELECT id FROM cities WHERE city = ?"
         self._cursor.execute(sql_string, (city,))
         answer = self._cursor.fetchone()
-        if answer:
-            answer = answer[0]
-        else:
+
+        if answer is None:
             raise ValueError('City not known.')
-        return answer
+
+        return answer[0]
 
     def _connect_to_sqlite3_database(self) -> None:
         try:
@@ -64,7 +64,7 @@ class SqlHandler:
         except Error as error:
             raise error
 
-    def connect(self):
+    def connect(self) -> None:
         if self.connected:
             return
         if not os.path.isfile(self._database):
@@ -72,11 +72,11 @@ class SqlHandler:
 
         self._connect_to_sqlite3_database()
 
-    def close(self):
+    def close(self) -> None:
         self._connection.close()
         self.connected = False
 
-    def get_coordinates_from_city(self, city):
+    def get_coordinates_from_city(self, city: str) -> Coordinates:
         if not self.connected:
             self.connect()
 
@@ -92,7 +92,7 @@ class SqlHandler:
 
         return coordinates
 
-    def set_coordinates_from_city(self, city, longitude, latitude):
+    def set_coordinates_from_city(self, city: str, longitude: int, latitude: int) -> None:
         if not self.connected:
             self.connect()
 
@@ -100,7 +100,7 @@ class SqlHandler:
         self._cursor.execute(sql_string, (city, longitude, latitude,))
         self._connection.commit()
 
-    def set_distance_duration(self, city_1, city_2, distance, duration):
+    def set_distance_duration(self, city_1: str, city_2: str, distance: float, duration: float) -> None:
         if not self.connected:
             self.connect()
 
@@ -112,7 +112,7 @@ class SqlHandler:
         self._cursor.execute(sql_string, (city_1_id, city_2_id, distance, duration,))
         self._connection.commit()
 
-    def get_value(self, city_1, city_2, which_value):
+    def get_value(self, city_1: str, city_2: str, which_value: str) -> float:
         if not self.connected:
             self.connect()
 
