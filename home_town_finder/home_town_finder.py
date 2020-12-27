@@ -141,4 +141,5 @@ class HomeTownFinder:
         self._plot_target_cities()
         self._plot_cities()
 
+        self._data_handler.close()
         mplleaflet.show()
