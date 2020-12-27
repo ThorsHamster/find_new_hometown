@@ -12,9 +12,9 @@ class SqlHandler:
         self._cursor = None
         self.connected = False
 
-    def _create_new_database(self):
+    def _create_new_database(self) -> None:
         try:
-            self._connection = sqlite3.connect(self._database)
+            self._connection = self._connect_to_sqlite3_database()
             self._cursor = self._connection.cursor()
 
             sql_table_cities_create = """
@@ -53,6 +53,9 @@ class SqlHandler:
             raise ValueError('City not known.')
         return answer
 
+    def _connect_to_sqlite3_database(self) -> sqlite3.Connection:
+        return sqlite3.connect(self._database)
+
     def connect(self):
         try:
             if self.connected:
@@ -60,7 +63,7 @@ class SqlHandler:
             if not os.path.isfile(self._database):
                 self._create_new_database()
 
-            self._connection = sqlite3.connect(self._database)
+            self._connection = self._connect_to_sqlite3_database()
             self._cursor = self._connection.cursor()
             self.connected = True
         except Error as error:
