@@ -33,7 +33,7 @@ class OpenRouteServiceHandler:
             value = distances[value_type][1][0]
         return value
 
-    def get_coordinate_of_city(self, city_name) -> Coordinates:
+    def get_coordinate_of_city(self, city_name: str) -> Coordinates:
         geocode = self._client.pelias_search(text=city_name)
 
         coordinates = Coordinates()
