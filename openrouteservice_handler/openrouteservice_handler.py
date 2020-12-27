@@ -14,11 +14,11 @@ class OpenRouteServiceHandler:
                        [coordinate_2.longitude, coordinate_2.latitude]]
 
         distances = self._client.distance_matrix(locations=coordinates,
-                                           metrics=['distance', 'duration'],
-                                           units='km')
+                                                 metrics=['distance', 'duration'],
+                                                 units='km')
 
         if distances is None:
-            return 0, 0
+            raise ValueError('Could not collect data from OpenRouteService. Maybe wrong api key?')
 
         distance_in_km = self._get_value_from_distance_matrix(distances, 'distances')
         duration = self._get_value_from_distance_matrix(distances, 'durations')
@@ -36,10 +36,12 @@ class OpenRouteServiceHandler:
     def get_coordinate_of_city(self, city_name: str) -> Coordinates:
         geocode = self._client.pelias_search(text=city_name)
 
+        if geocode is None:
+            raise ValueError('Could not collect data from OpenRouteService. Maybe wrong api key?')
+
         coordinates = Coordinates()
-        if geocode:
-            if len(geocode['features']) > 0:
-                coordinates.longitude = geocode['features'][0]['geometry']['coordinates'][0]
-                coordinates.latitude = geocode['features'][0]['geometry']['coordinates'][1]
+        if len(geocode['features']) > 0:
+            coordinates.longitude = geocode['features'][0]['geometry']['coordinates'][0]
+            coordinates.latitude = geocode['features'][0]['geometry']['coordinates'][1]
 
         return coordinates
