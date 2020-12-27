@@ -112,25 +112,19 @@ class SqlHandler:
         self._cursor.execute(sql_string, (city_1_id, city_2_id, distance, duration,))
         self._connection.commit()
 
-    def get_value(self, city_1: str, city_2: str, which_value: str) -> float:
+    def get_value(self, city_1: str, city_2: str, option: str) -> float:
         if not self.connected:
             self.connect()
 
         city_1_id = self._get_city_id(city_1)
         city_2_id = self._get_city_id(city_2)
 
-        if which_value == 'distance':
-            sql_string = "SELECT distance FROM distances WHERE " \
-                         "(city_1_id = ? AND city_2_id = ?)" \
-                         " OR (city_1_id = ? AND city_2_id = ?)"
-        else:
-            sql_string = "SELECT duration FROM distances WHERE " \
-                         "(city_1_id = ? AND city_2_id = ?)" \
-                         " OR (city_1_id = ? AND city_2_id = ?)"
+        sql_string = f"SELECT {option} FROM distances WHERE " \
+                     "(city_1_id = ? AND city_2_id = ?)" \
+                     " OR (city_1_id = ? AND city_2_id = ?)"
         self._cursor.execute(sql_string, (city_1_id, city_2_id, city_2_id, city_1_id,))
         answer = self._cursor.fetchone()
-        if answer:
-            answer = answer[0]
-        else:
-            answer = 0
-        return answer
+        if answer is None:
+            return 0
+
+        return answer[0]
