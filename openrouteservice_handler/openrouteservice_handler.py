@@ -6,14 +6,14 @@ from coordinates import Coordinates
 class OpenRouteServiceHandler:
     def __init__(self, openrouteservice_api_key):
         self._api_key = openrouteservice_api_key
+        self._client = openrouteservice.Client(key=self._api_key)
 
     def get_distance_duration_between_cities(self, coordinate_1: Coordinates, coordinate_2: Coordinates) \
             -> Tuple[float, float]:
         coordinates = [[coordinate_1.longitude, coordinate_1.latitude],
                        [coordinate_2.longitude, coordinate_2.latitude]]
 
-        client = openrouteservice.Client(key=self._api_key)
-        distances = client.distance_matrix(locations=coordinates,
+        distances = self._client.distance_matrix(locations=coordinates,
                                            metrics=['distance', 'duration'],
                                            units='km')
 
@@ -34,8 +34,7 @@ class OpenRouteServiceHandler:
         return value
 
     def get_coordinate_of_city(self, city_name) -> Coordinates:
-        client = openrouteservice.Client(key=self._api_key)
-        geocode = client.pelias_search(text=city_name)
+        geocode = self._client.pelias_search(text=city_name)
 
         coordinates = Coordinates()
         if geocode:
