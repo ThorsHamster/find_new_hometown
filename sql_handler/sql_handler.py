@@ -12,7 +12,7 @@ class SqlHandler:
         self._cursor = None
         self.connected = False
 
-    def _create_new(self):
+    def _create_new_database(self):
         try:
             self._connection = sqlite3.connect(self._database)
             self._cursor = self._connection.cursor()
@@ -58,7 +58,7 @@ class SqlHandler:
             if self.connected:
                 return
             if not os.path.isfile(self._database):
-                self._create_new()
+                self._create_new_database()
 
             self._connection = sqlite3.connect(self._database)
             self._cursor = self._connection.cursor()
