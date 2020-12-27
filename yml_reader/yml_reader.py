@@ -4,7 +4,7 @@ import yaml
 
 
 class YmlReader:
-    def __init__(self, file):
+    def __init__(self, file: str):
         self._file = file
 
     def read(self) -> dict:
