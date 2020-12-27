@@ -74,8 +74,9 @@ class SqlHandler:
         self._connect_to_sqlite3_database()
 
     def close(self) -> None:
-        self._connection.close()
-        self.connected = False
+        if self.connected:
+            self._connection.close()
+            self.connected = False
 
     def _connect_if_not_connected(self):
         if not self.connected:

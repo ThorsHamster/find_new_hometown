@@ -48,10 +48,20 @@ def test_connect_database_does_already_exist(unit_under_test, mocker):
     assert unit_under_test.connected is True
 
 
-def test_close(unit_under_test, mocker):
+def test_close_not_closed(unit_under_test, mocker):
     mocker.patch('sql_handler.sql_handler.sqlite3.connect')
 
     unit_under_test.connect()
+    unit_under_test.close()
+
+    assert unit_under_test.connected is False
+
+
+def test_close_already_closed(unit_under_test, mocker):
+    mocker.patch('sql_handler.sql_handler.sqlite3.connect')
+
+    unit_under_test.connect()
+    unit_under_test.close()
     unit_under_test.close()
 
     assert unit_under_test.connected is False
