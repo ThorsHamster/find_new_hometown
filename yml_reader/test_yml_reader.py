@@ -21,8 +21,6 @@ def test_read_file_exists(unit_under_test, mocker):
 
 def test_read_file_does_not_exists(unit_under_test, mocker):
     mocker.patch('os.path.isfile', return_value=False)
-    mocker.patch('sys.exit')
 
-    yaml_content = unit_under_test.read()
-
-    assert yaml_content is None
+    with pytest.raises(FileNotFoundError, match='file: test_file not found!'):
+        unit_under_test.read()
