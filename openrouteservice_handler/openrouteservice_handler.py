@@ -1,4 +1,3 @@
-
 from typing import Tuple
 import openrouteservice
 from yml_reader import YmlReader
@@ -10,7 +9,8 @@ class OpenRouteServiceHandler:
         self._settings_file = "settings.yml"
         self._settings = YmlReader(self._settings_file).read()
 
-    def get_distance_duration_between_cities(self, coordinate_1, coordinate_2) -> Tuple[float, float]:
+    def get_distance_duration_between_cities(self, coordinate_1: Coordinates, coordinate_2: Coordinates) \
+            -> Tuple[float, float]:
         coordinates = [[coordinate_1.longitude, coordinate_1.latitude],
                        [coordinate_2.longitude, coordinate_2.latitude]]
 
@@ -22,16 +22,18 @@ class OpenRouteServiceHandler:
         if distances is None:
             return 0, 0
 
-        distance_in_km = distances['distances'][0][1]
-        duration = distances['durations'][0][1]
-
-        if distance_in_km == 0:
-            distance_in_km = distances['distances'][1][0]
-
-        if duration == 0:
-            duration = distances['durations'][1][0]
+        distance_in_km = self._get_value_from_distance_matrix(distances, 'distances')
+        duration = self._get_value_from_distance_matrix(distances, 'durations')
 
         return distance_in_km, duration
+
+    @staticmethod
+    def _get_value_from_distance_matrix(distances: dict, value_type: str) -> float:
+        value = distances[value_type][0][1]
+
+        if value == 0:
+            value = distances[value_type][1][0]
+        return value
 
     def get_coordinate_of_city(self, city_name) -> Coordinates:
         client = openrouteservice.Client(key=self._settings['api_key'])
