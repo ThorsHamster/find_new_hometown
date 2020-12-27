@@ -117,3 +117,11 @@ def test_get_value_unknown_city(unit_under_test, mocker):
     return_value = unit_under_test.get_value('unkown_city', 'test_city2', 'duration')
 
     assert return_value == 0
+
+
+def test_get_value_option_not_allowed(unit_under_test, mocker):
+    mock_sql = mocker.patch('sql_handler.sql_handler.sqlite3.connect')
+    mock_sql.return_value.cursor.return_value.fetchone.side_effect = [[10], [11], None]
+
+    with pytest.raises(ValueError, match='Only "distance" and "duration" allowed.'):
+        unit_under_test.get_value('test_city1', 'test_city2', 'not_allowed')

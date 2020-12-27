@@ -116,6 +116,9 @@ class SqlHandler:
     def get_value(self, city_1: str, city_2: str, option: str) -> float:
         self._connect_if_not_connected()
 
+        if option not in ['distance', 'duration']:
+            raise ValueError('Only "distance" and "duration" allowed.')
+
         city_1_id = self._get_city_id(city_1)
         city_2_id = self._get_city_id(city_2)
 
