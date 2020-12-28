@@ -89,9 +89,9 @@ def test_set_distance_duration_unknown_city(unit_under_test, mocker):
 def test_set_coordinates_from_city(unit_under_test, mocker):
     mock_sql = mocker.patch('sql_handler.sql_handler.sqlite3')
 
-    unit_under_test.set_coordinates_from_city('test_city', 0, 0)
+    unit_under_test.set_coordinates_from_city('test_city', 1, 2)
 
-    assert mock_sql.connect().cursor().execute.assert_called_with(ANY, ('test_city', 0, 0)) is None
+    assert mock_sql.connect().cursor().execute.assert_called_with(ANY, ('test_city', 1, 2)) is None
 
 
 def test_set_distance_duration(unit_under_test, mocker):
