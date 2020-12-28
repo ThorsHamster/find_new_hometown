@@ -1,5 +1,4 @@
 import pytest
-import gc
 
 from data_handler import DataHandler
 
