@@ -16,12 +16,11 @@ def unit_under_test(mocker):
 
 
 def test_close_database(unit_under_test, mocker):
-    mock_sql = mocker.patch('data_handler.data_handler.SqlHandler')
+    mock_sql = mocker.patch('data_handler.data_handler.SqlHandler.close')
 
-    unit_under_test = DataHandler('api_key')
     unit_under_test.close()
 
-    assert any("close" in str(c) for c in mock_sql.mock_calls)
+    mock_sql.assert_called_once()
 
 
 def test_get_values_between_cities_city_was_already_saved(unit_under_test, mocker):
