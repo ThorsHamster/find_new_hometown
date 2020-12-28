@@ -91,7 +91,7 @@ def test_set_coordinates_from_city(unit_under_test, mocker):
 
     unit_under_test.set_coordinates_from_city('test_city', 1, 2)
 
-    assert mock_sql.connect().cursor().execute.assert_called_with(ANY, ('test_city', 1, 2)) is None
+    mock_sql.connect().cursor().execute.assert_called_with(ANY, ('test_city', 1, 2))
 
 
 def test_set_distance_duration(unit_under_test, mocker):
@@ -100,7 +100,7 @@ def test_set_distance_duration(unit_under_test, mocker):
 
     unit_under_test.set_distance_duration('test_city', 'test_city2', 30, 40)
 
-    assert mock_sql.connect().cursor().execute.assert_called_with(ANY, (10, 11, 30, 40)) is None
+    mock_sql.connect().cursor().execute.assert_called_with(ANY, (10, 11, 30, 40))
 
 
 def test_get_value_distance(unit_under_test, mocker):
