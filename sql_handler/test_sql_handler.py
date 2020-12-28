@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import ANY
 from sqlite3 import Error
 
 from sql_handler import SqlHandler
@@ -90,8 +91,7 @@ def test_set_coordinates_from_city(unit_under_test, mocker):
 
     unit_under_test.set_coordinates_from_city('test_city', 0, 0)
 
-    assert mock_sql.connect().cursor().execute.assert_called_with("INSERT INTO cities (city, longitude, latitude) "
-                                                                  "VALUES (?, ?, ?)", ('test_city', 0, 0)) is None
+    assert mock_sql.connect().cursor().execute.assert_called_with(ANY, ('test_city', 0, 0)) is None
 
 
 def test_set_distance_duration(unit_under_test, mocker):
