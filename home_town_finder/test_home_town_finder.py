@@ -33,9 +33,11 @@ def test_home_town_finder_initialize_data(mocker):
                                                                                    'target_city_1': 'city_A',
                                                                                    'target_city_2': 'city_B',
                                                                                    'option': 'duration'}])
-    mocker.patch('home_town_finder.home_town_finder.DataHandler')
+    mock_data_handler = mocker.patch('home_town_finder.home_town_finder.DataHandler')
 
     HomeTownFinder()
+
+    mock_data_handler.assert_called_once()
 
 
 def test_home_town_finder_initialize_data_invalid_cities_yml(mocker):
