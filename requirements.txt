@@ -19,7 +19,7 @@ numpy==1.18.0
 openrouteservice==2.2.3
 packaging==20.8
 pandas==0.25.3
-Pillow==8.0.1
+Pillow==8.1.2
 pluggy==0.13.1
 py==1.10.0
 pycodestyle==2.6.0
