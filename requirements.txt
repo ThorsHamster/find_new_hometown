@@ -23,7 +23,7 @@ Pillow==8.0.1
 pluggy==0.13.1
 py==1.10.0
 pycodestyle==2.6.0
-pyflakes==2.2.0
+pyflakes==2.3.0
 pylint==2.4.4
 pyparsing==2.4.7
 pytest==6.2.1
