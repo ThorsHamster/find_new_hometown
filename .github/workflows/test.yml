@@ -29,4 +29,4 @@ jobs:
         pytest
     - name: Coverage with pytest
       run: |
-        pytest --cov=. ./
+        pytest --cov=. --cov-fail-under=100 ./
