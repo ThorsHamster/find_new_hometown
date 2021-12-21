@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   test:
-
+    name: Test - ${{ github.event_name }}
     runs-on: ubuntu-latest
 
     steps:
