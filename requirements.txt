@@ -1,4 +1,4 @@
-flake8==5.0.2
+flake8==5.0.4
 matplotlib==3.5.2
 mplleaflet==0.0.5
 openrouteservice==2.3.3
