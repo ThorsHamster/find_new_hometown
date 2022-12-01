@@ -1,5 +1,5 @@
 flake8==6.0.0
-matplotlib==3.6.1
+matplotlib==3.6.2
 mplleaflet==0.0.5
 openrouteservice==2.3.3
 pandas==1.5.2
