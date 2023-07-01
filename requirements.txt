@@ -2,7 +2,7 @@ flake8==6.0.0
 matplotlib==3.7.1
 mplleaflet==0.0.5
 openrouteservice==2.3.3
-pandas==2.0.2
+pandas==2.0.3
 pytest==7.3.1
 pytest-cov==4.1.0
 pytest-mock==3.10.0
